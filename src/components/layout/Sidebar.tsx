@@ -32,8 +32,8 @@ const NavItem = ({ to, icon: Icon, label, isCollapsed }: NavItemProps) => {
   return (
     <NavLink
       to={to}
-      className={cn(
-        "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+      className={({ isActive }) => cn(
+        "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors w-full",
         isCollapsed ? "justify-center" : "",
         isActive
           ? "bg-sidebar-accent text-sidebar-accent-foreground"
