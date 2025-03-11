@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -101,12 +102,12 @@
   @apply rounded-lg card-shadow;
 }
 
-// Add glass effect utility
+/* Add glass effect utility */
 .glass {
   @apply bg-white/10 backdrop-blur-lg border border-white/20;
 }
 
-// Add gradient text utility
+/* Add gradient text utility */
 .gradient-text {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500;
 }
