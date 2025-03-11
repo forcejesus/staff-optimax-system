@@ -8,14 +8,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const PerformancePage = () => {
   return (
     <div className="flex flex-col space-y-8">
-      <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 p-8 text-white">
+      <div className="ms-header rounded-xl">
         <div className="relative z-10">
-          <h1 className="text-3xl font-bold tracking-tight">Performances</h1>
-          <p className="mt-2 text-purple-100">
+          <h1 className="text-3xl font-bold tracking-tight mb-2">Performances</h1>
+          <p className="text-white/80">
             Suivez et gérez les évaluations et performances des employés
           </p>
         </div>
-        <div className="absolute inset-0 bg-grid-white/10" />
+        <div className="absolute inset-0 ms-grid-bg opacity-10" />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -51,7 +51,7 @@ const PerformancePage = () => {
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-2xl font-semibold tracking-tight">Évaluations récentes</h2>
+          <h2 className="text-2xl font-semibold tracking-tight ms-text-gradient">Évaluations récentes</h2>
           <div className="flex gap-2">
             <Select defaultValue="all">
               <SelectTrigger className="w-[180px]">
@@ -69,37 +69,37 @@ const PerformancePage = () => {
           </div>
         </div>
 
-        <Card className="overflow-hidden bg-gradient-to-br from-white to-gray-50 shadow-md">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-b bg-gray-50/50">
+        <Card className="ms-glass">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-b">
             <CardTitle className="text-lg font-medium">Dernières évaluations</CardTitle>
-            <Button size="sm" className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600">
+            <Button className="bg-primary/10 text-primary hover:bg-primary/20">
               Créer une évaluation
             </Button>
           </CardHeader>
           <CardContent className="p-0">
             <div className="overflow-hidden">
-              <table className="min-w-full divide-y divide-gray-200">
+              <table className="min-w-full divide-y divide-border">
                 <thead>
-                  <tr className="bg-gray-50/50">
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Employé</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date d'évaluation</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Performance</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Évaluateur</th>
-                    <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                  <tr className="bg-muted/50">
+                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Employé</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Date d'évaluation</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Performance</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Évaluateur</th>
+                    <th className="px-6 py-4 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-transparent divide-y divide-border">
                   {Array.from({length: 5}).map((_, index) => (
-                    <tr key={index} className="hover:bg-gray-50/50 transition-colors">
+                    <tr key={index} className="hover:bg-muted/50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap text-sm">Employé {index + 1}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">01/10/2023</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           index % 3 === 0 
-                            ? "bg-green-100 text-green-800" 
+                            ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300" 
                             : index % 3 === 1 
-                              ? "bg-yellow-100 text-yellow-800" 
-                              : "bg-blue-100 text-blue-800"
+                              ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300" 
+                              : "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
                         }`}>
                           {index % 3 === 0 ? "Excellent" : index % 3 === 1 ? "Bon" : "Satisfaisant"}
                         </span>
