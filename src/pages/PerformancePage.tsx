@@ -1,5 +1,4 @@
-
-import { Chart, Award, TrendingUp, Activity } from "lucide-react";
+import { BarChart, Award, TrendingUp, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/dashboard/StatCard";
@@ -34,7 +33,7 @@ const PerformancePage = () => {
           title="Employés à évaluer"
           value="7"
           description="À réaliser ce mois"
-          icon={<Chart className="h-6 w-6" />}
+          icon={<BarChart className="h-6 w-6" />}
           color="yellow"
         />
         <StatCard 
