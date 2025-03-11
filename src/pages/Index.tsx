@@ -1,11 +1,53 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { Clock, UserPlus, Calendar, Award, Users } from "lucide-react";
+import { StatCard } from "@/components/dashboard/StatCard";
+import { RecentActivity } from "@/components/dashboard/RecentActivity";
+import { UpcomingLeave } from "@/components/dashboard/UpcomingLeave";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="flex flex-col space-y-8">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight">Tableau de bord</h1>
+        <p className="text-muted-foreground">
+          Bienvenue sur votre tableau de bord de gestion des ressources humaines
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          title="Employés actifs"
+          value="42"
+          icon={<Users className="h-4 w-4" />}
+          description="2 nouveaux ce mois-ci"
+          color="blue"
+        />
+        <StatCard
+          title="Taux de présence"
+          value="92%"
+          icon={<Clock className="h-4 w-4" />}
+          description="↑ 3% par rapport au mois dernier"
+          color="green"
+        />
+        <StatCard
+          title="Demandes de congés"
+          value="8"
+          icon={<Calendar className="h-4 w-4" />}
+          description="5 en attente d'approbation"
+          color="yellow"
+        />
+        <StatCard
+          title="Évaluations à venir"
+          value="12"
+          icon={<Award className="h-4 w-4" />}
+          description="Prévues ce trimestre"
+          color="red"
+        />
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <RecentActivity />
+        <UpcomingLeave />
       </div>
     </div>
   );
