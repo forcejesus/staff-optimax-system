@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Users, 
@@ -26,19 +25,19 @@ type NavItemProps = {
 };
 
 const NavItem = ({ to, icon: Icon, label, isCollapsed }: NavItemProps) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+
   return (
     <NavLink
       to={to}
-      end
-      className={({ isActive }) =>
-        cn(
-          "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
-          isCollapsed ? "justify-center" : "",
-          isActive
-            ? "bg-sidebar-accent text-sidebar-accent-foreground"
-            : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
-        )
-      }
+      className={cn(
+        "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+        isCollapsed ? "justify-center" : "",
+        isActive
+          ? "bg-sidebar-accent text-sidebar-accent-foreground"
+          : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
+      )}
     >
       <Icon className="h-5 w-5" />
       {!isCollapsed && <span>{label}</span>}
@@ -77,6 +76,7 @@ export function Sidebar() {
           <span className="sr-only">Toggle Sidebar</span>
         </Button>
       </div>
+
       <div className="flex-1 overflow-auto py-4">
         <nav className="grid gap-1 px-2">
           <NavItem to="/" icon={LayoutDashboard} label="Tableau de bord" isCollapsed={isCollapsed} />
@@ -89,6 +89,7 @@ export function Sidebar() {
           <NavItem to="/recruitment" icon={UserPlus} label="Recrutement" isCollapsed={isCollapsed} />
         </nav>
       </div>
+
       <div className="border-t p-4">
         <Button
           variant="ghost"
