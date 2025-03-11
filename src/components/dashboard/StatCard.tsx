@@ -17,19 +17,34 @@ export function StatCard({
   color = "blue",
 }: StatCardProps) {
   return (
-    <div className="stat-card bg-white">
-      <div className="flex items-center justify-between">
-        <div>
+    <div className={cn(
+      "stat-card relative overflow-hidden",
+      "bg-gradient-to-br from-white to-gray-50",
+      "border border-gray-100",
+      "transition-all duration-300 hover:scale-105",
+      "hover:shadow-lg"
+    )}>
+      <div className="relative z-10 flex items-center justify-between p-6">
+        <div className="space-y-2">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <h3 className="text-2xl font-bold mt-1">{value}</h3>
+          <h3 className="text-2xl font-bold tracking-tight">{value}</h3>
           {description && (
-            <p className="text-xs text-muted-foreground mt-1">{description}</p>
+            <p className="text-xs text-muted-foreground">{description}</p>
           )}
         </div>
-        <div className={cn(`text-hr-${color}`, "rounded-full p-2 bg-opacity-10")}>
+        <div className={cn(
+          `text-hr-${color}`,
+          "rounded-full p-3",
+          "bg-gradient-to-br from-white to-gray-50",
+          "shadow-inner"
+        )}>
           {icon}
         </div>
       </div>
+      <div className={cn(
+        "absolute inset-0 opacity-5",
+        `bg-hr-${color}`
+      )} />
     </div>
   );
 }
