@@ -1,7 +1,7 @@
 
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState, useEffect } from "react";
 import { Menu } from "lucide-react";
@@ -10,23 +10,35 @@ import { Button } from "@/components/ui/button";
 export function Layout() {
   const isMobile = useIsMobile();
   const [showSidebar, setShowSidebar] = useState(!isMobile);
-  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Handle responsive sidebar visibility
+  useEffect(() => {
+    if (isMobile) {
+      setShowSidebar(false);
+    } else {
+      setShowSidebar(true);
+    }
+  }, [isMobile]);
 
   // Close sidebar on mobile when changing routes
   useEffect(() => {
     if (isMobile) {
       setShowSidebar(false);
     }
-  }, [navigate, isMobile]);
+  }, [location.pathname, isMobile]);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       {showSidebar && (
         <div 
           className={isMobile ? "fixed inset-0 z-50 bg-background/80 backdrop-blur-sm" : ""}
           onClick={isMobile ? () => setShowSidebar(false) : undefined}
         >
-          <div onClick={e => e.stopPropagation()}>
+          <div 
+            onClick={e => e.stopPropagation()}
+            className="h-full"
+          >
             <Sidebar />
           </div>
         </div>
