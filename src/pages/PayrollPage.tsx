@@ -18,7 +18,7 @@ const PayrollPage = () => {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Masse salariale"
-          value="125 400 €"
+          value="125 400 FCFA"
           description="Ce mois-ci"
           icon={<FileText className="h-6 w-6" />}
           color="blue"
@@ -32,14 +32,14 @@ const PayrollPage = () => {
         />
         <StatCard 
           title="Coût moyen"
-          value="2 986 €"
+          value="2 986 FCFA"
           description="Par employé"
           icon={<FileText className="h-6 w-6" />}
           color="green"
         />
         <StatCard 
           title="Charges sociales"
-          value="37 620 €"
+          value="37 620 FCFA"
           description="Ce mois-ci"
           icon={<FileText className="h-6 w-6" />}
           color="red"
@@ -90,8 +90,8 @@ const PayrollPage = () => {
                   <tr key={index}>
                     <td className="whitespace-nowrap px-4 py-3 text-sm">Employé {index + 1}</td>
                     <td className="whitespace-nowrap px-4 py-3 text-sm">Octobre 2023</td>
-                    <td className="whitespace-nowrap px-4 py-3 text-sm">{(Math.random() * 4000 + 2000).toFixed(2)} €</td>
-                    <td className="whitespace-nowrap px-4 py-3 text-sm">{(Math.random() * 3000 + 1500).toFixed(2)} €</td>
+                    <td className="whitespace-nowrap px-4 py-3 text-sm">{(Math.random() * 4000 + 2000).toFixed(2)} FCFA</td>
+                    <td className="whitespace-nowrap px-4 py-3 text-sm">{(Math.random() * 3000 + 1500).toFixed(2)} FCFA</td>
                     <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
                       <Button variant="ghost" size="sm">
                         <Download className="h-4 w-4" />

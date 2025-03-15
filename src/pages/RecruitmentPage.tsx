@@ -39,7 +39,7 @@ const RecruitmentPage = () => {
         />
         <StatCard 
           title="Taux de conversion"
-          value="8.2%"
+          value="8,2%"
           description="Candidatures → Embauches"
           icon={<FileText className="h-6 w-6" />}
           color="red"
