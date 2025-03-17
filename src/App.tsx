@@ -13,6 +13,7 @@ import PayrollPage from "./pages/PayrollPage";
 import PerformancePage from "./pages/PerformancePage";
 import TrainingPage from "./pages/TrainingPage";
 import RecruitmentPage from "./pages/RecruitmentPage";
+import RetirementPage from "./pages/RetirementPage";
 import LoginPage from "./pages/LoginPage";
 import NotFound from "./pages/NotFound";
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/performance" element={<PerformancePage />} />
             <Route path="/training" element={<TrainingPage />} />
             <Route path="/recruitment" element={<RecruitmentPage />} />
+            <Route path="/retirement" element={<RetirementPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
