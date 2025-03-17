@@ -1,17 +1,21 @@
 
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Award, PlusCircle, Calendar, TrendingUp } from "lucide-react";
 
-// Données fictives pour les avancements de carrière
+// Données fictives pour les avancements de carrière avec des noms africains
 const advancements = [
   {
     id: 1,
-    employee: "Jean Dupont",
+    employee: "Kofi Annan",
     previousPosition: "Développeur Junior",
     newPosition: "Développeur Senior",
     type: "Promotion",
@@ -21,7 +25,7 @@ const advancements = [
   },
   {
     id: 2,
-    employee: "Marie Lambert",
+    employee: "Fatou Diallo",
     previousPosition: "Chef de Projet",
     newPosition: "Directrice de Projet",
     type: "Promotion",
@@ -31,7 +35,7 @@ const advancements = [
   },
   {
     id: 3,
-    employee: "Sophie Dubois",
+    employee: "Aminata Touré",
     previousPosition: "Comptable",
     newPosition: "Comptable Senior",
     type: "Augmentation",
@@ -41,7 +45,7 @@ const advancements = [
   },
   {
     id: 4,
-    employee: "Thomas Bernard",
+    employee: "Mamadou Sow",
     previousPosition: "Responsable Commercial",
     newPosition: "Directeur Commercial",
     type: "Promotion",
@@ -51,7 +55,7 @@ const advancements = [
   },
   {
     id: 5,
-    employee: "Pierre Martin",
+    employee: "Amadou Diop",
     previousPosition: "Développeur Front-end",
     newPosition: "Lead Développeur Front-end",
     type: "Promotion",
@@ -62,14 +66,89 @@ const advancements = [
 ];
 
 export function EmployeeAdvancements() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  
+  const handleAddAdvancement = (e) => {
+    e.preventDefault();
+    setIsDialogOpen(false);
+    // Ici on peut ajouter la logique pour traiter le formulaire
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Suivi des avancements de carrière</h2>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Nouvel avancement
-        </Button>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Nouvel avancement
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Ajouter un nouvel avancement</DialogTitle>
+              <DialogDescription>
+                Complétez les informations pour créer un nouvel avancement de carrière.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleAddAdvancement}>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="employee" className="text-right">Employé</Label>
+                  <div className="col-span-3">
+                    <Select>
+                      <SelectTrigger id="employee">
+                        <SelectValue placeholder="Sélectionner un employé" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1">Kofi Annan</SelectItem>
+                        <SelectItem value="2">Fatou Diallo</SelectItem>
+                        <SelectItem value="3">Amadou Diop</SelectItem>
+                        <SelectItem value="4">Aminata Touré</SelectItem>
+                        <SelectItem value="5">Mamadou Sow</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="prevPosition" className="text-right">Poste actuel</Label>
+                  <Input id="prevPosition" className="col-span-3" />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="newPosition" className="text-right">Nouveau poste</Label>
+                  <Input id="newPosition" className="col-span-3" />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="type" className="text-right">Type</Label>
+                  <div className="col-span-3">
+                    <Select>
+                      <SelectTrigger id="type">
+                        <SelectValue placeholder="Type d'avancement" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="promotion">Promotion</SelectItem>
+                        <SelectItem value="augmentation">Augmentation</SelectItem>
+                        <SelectItem value="transfert">Transfert</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="effectiveDate" className="text-right">Date d'effet</Label>
+                  <Input id="effectiveDate" type="date" className="col-span-3" />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="reason" className="text-right">Motif</Label>
+                  <Textarea id="reason" className="col-span-3" />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit">Enregistrer</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

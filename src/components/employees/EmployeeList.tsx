@@ -22,44 +22,44 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Search, Plus, MoreHorizontal, Eye, Edit, Trash, UserCircle } from "lucide-react";
 
-// Données fictives pour les employés
+// Données fictives pour les employés avec des noms africains
 const employees = [
   {
     id: 1,
-    name: "Jean Dupont",
-    email: "jean.dupont@example.com",
+    name: "Kofi Annan",
+    email: "kofi.annan@example.com",
     department: "Ressources Humaines",
     position: "Responsable RH",
     status: "Actif",
   },
   {
     id: 2,
-    name: "Marie Lambert",
-    email: "marie.lambert@example.com",
+    name: "Fatou Diallo",
+    email: "fatou.diallo@example.com",
     department: "Marketing",
     position: "Chef de Projet",
     status: "Actif",
   },
   {
     id: 3,
-    name: "Pierre Martin",
-    email: "pierre.martin@example.com",
+    name: "Amadou Diop",
+    email: "amadou.diop@example.com",
     department: "Développement",
     position: "Développeur Front-end",
     status: "Actif",
   },
   {
     id: 4,
-    name: "Sophie Dubois",
-    email: "sophie.dubois@example.com",
+    name: "Aminata Touré",
+    email: "aminata.toure@example.com",
     department: "Comptabilité",
     position: "Comptable",
     status: "En congé",
   },
   {
     id: 5,
-    name: "Thomas Bernard",
-    email: "thomas.bernard@example.com",
+    name: "Mamadou Sow",
+    email: "mamadou.sow@example.com",
     department: "Commercial",
     position: "Responsable Commercial",
     status: "Actif",
