@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -98,16 +97,17 @@ export function AttendanceTracker() {
     return matchesSearch && matchesStatus && matchesTab;
   });
 
+  // Modify getStatusColor to return only valid Badge variant values
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Présent":
-        return "success";
+        return "default"; // Instead of "success"
       case "Retard":
-        return "warning";
+        return "secondary"; // Instead of "warning"
       case "Absent":
         return "destructive";
       case "Congé":
-        return "secondary";
+        return "outline"; // Instead of "secondary"
       default:
         return "default";
     }
