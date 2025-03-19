@@ -26,17 +26,17 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/connexion" element={<LoginPage />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
-            <Route path="/employees" element={<EmployeesPage />} />
-            <Route path="/leave" element={<LeavePage />} />
-            <Route path="/attendance" element={<AttendancePage />} />
-            <Route path="/payroll" element={<PayrollPage />} />
-            <Route path="/performance" element={<PerformancePage />} />
-            <Route path="/training" element={<TrainingPage />} />
-            <Route path="/recruitment" element={<RecruitmentPage />} />
-            <Route path="/retirement" element={<RetirementPage />} />
+            <Route path="/employes" element={<EmployeesPage />} />
+            <Route path="/conges" element={<LeavePage />} />
+            <Route path="/presences" element={<AttendancePage />} />
+            <Route path="/paie" element={<PayrollPage />} />
+            <Route path="/performances" element={<PerformancePage />} />
+            <Route path="/formations" element={<TrainingPage />} />
+            <Route path="/recrutement" element={<RecruitmentPage />} />
+            <Route path="/retraite" element={<RetirementPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -40,17 +40,17 @@ export function AppSidebar() {
   // Définition des menus
   const mainMenuItems = [
     { to: "/", icon: LayoutDashboard, label: "Tableau de bord" },
-    { to: "/employees", icon: Users, label: "Employés", badge: "42" },
-    { to: "/leave", icon: Calendar, label: "Congés", badge: "8" },
-    { to: "/attendance", icon: Clock, label: "Présences" },
-    { to: "/payroll", icon: FileText, label: "Paie" },
+    { to: "/employes", icon: Users, label: "Employés", badge: "42" },
+    { to: "/conges", icon: Calendar, label: "Congés", badge: "8" },
+    { to: "/presences", icon: Clock, label: "Présences" },
+    { to: "/paie", icon: FileText, label: "Paie" },
   ];
 
   const secondaryMenuItems = [
-    { to: "/performance", icon: BarChart3, label: "Performances" },
-    { to: "/training", icon: BookOpen, label: "Formations" },
-    { to: "/recruitment", icon: UserPlus, label: "Recrutement" },
-    { to: "/retirement", icon: Building, label: "Retraite" },
+    { to: "/performances", icon: BarChart3, label: "Performances" },
+    { to: "/formations", icon: BookOpen, label: "Formations" },
+    { to: "/recrutement", icon: UserPlus, label: "Recrutement" },
+    { to: "/retraite", icon: Building, label: "Retraite" },
   ];
 
   return (
