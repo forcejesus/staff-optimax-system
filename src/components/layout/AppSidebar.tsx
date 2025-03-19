@@ -34,11 +34,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+// Define a type for the menu items
+interface MenuItem {
+  to: string;
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  badge?: string;
+}
+
 export function AppSidebar() {
   const location = useLocation();
 
   // Définition des menus
-  const mainMenuItems = [
+  const mainMenuItems: MenuItem[] = [
     { to: "/", icon: LayoutDashboard, label: "Tableau de bord" },
     { to: "/employes", icon: Users, label: "Employés", badge: "42" },
     { to: "/conges", icon: Calendar, label: "Congés", badge: "8" },
@@ -46,7 +54,7 @@ export function AppSidebar() {
     { to: "/paie", icon: FileText, label: "Paie" },
   ];
 
-  const secondaryMenuItems = [
+  const secondaryMenuItems: MenuItem[] = [
     { to: "/performances", icon: BarChart3, label: "Performances" },
     { to: "/formations", icon: BookOpen, label: "Formations" },
     { to: "/recrutement", icon: UserPlus, label: "Recrutement" },
