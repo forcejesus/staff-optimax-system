@@ -1,7 +1,5 @@
 
 import { UnderDevelopmentBanner } from "@/components/ui/under-development-banner";
-import { RetirementPlanning } from "@/components/retirement/RetirementPlanning";
-import { RetirementProcess } from "@/components/retirement/RetirementProcess";
 
 const RetirementPage = () => {
   return (
@@ -14,11 +12,6 @@ const RetirementPage = () => {
       </div>
       
       <UnderDevelopmentBanner />
-      
-      <div className="grid gap-8">
-        <RetirementPlanning />
-        <RetirementProcess />
-      </div>
     </div>
   );
 };
