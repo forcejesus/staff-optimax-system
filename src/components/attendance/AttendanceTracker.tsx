@@ -11,9 +11,10 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Search, Calendar, ArrowDownUp } from "lucide-react";
+import { Search, Calendar, ArrowDownUp, UserCheck, UserX, Clock } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type AttendanceRecord = {
   id: number;
@@ -86,19 +87,23 @@ export function AttendanceTracker() {
   const [searchTerm, setSearchTerm] = useState("");
   const [dateFilter, setDateFilter] = useState("2023-10-16");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [activeTab, setActiveTab] = useState("all");
 
   const filteredData = attendanceData.filter((record) => {
     const matchesSearch = record.employee.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === "all" || record.status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesTab = activeTab === "all" || 
+                      (activeTab === "present" && (record.status === "Présent" || record.status === "Retard")) ||
+                      (activeTab === "absent" && (record.status === "Absent" || record.status === "Congé"));
+    return matchesSearch && matchesStatus && matchesTab;
   });
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Présent":
-        return "default";
+        return "success";
       case "Retard":
-        return "outline";
+        return "warning";
       case "Absent":
         return "destructive";
       case "Congé":
@@ -108,91 +113,197 @@ export function AttendanceTracker() {
     }
   };
 
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "Présent":
+        return <UserCheck className="h-3 w-3 mr-1" />;
+      case "Retard":
+        return <Clock className="h-3 w-3 mr-1" />;
+      case "Absent":
+      case "Congé":
+        return <UserX className="h-3 w-3 mr-1" />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <Card>
-      <CardHeader>
+    <Card className="shadow-md">
+      <CardHeader className="bg-muted/30 border-b">
         <CardTitle>Suivi des présences</CardTitle>
         <CardDescription>
           Suivez les heures de travail et les présences de vos employés
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="flex flex-col sm:flex-row items-end gap-4 mb-6">
-          <div className="w-full sm:w-auto">
-            <div className="relative flex-1">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <CardContent className="p-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
+          <TabsList className="grid w-full md:w-auto grid-cols-3 mb-4">
+            <TabsTrigger value="all">Tous</TabsTrigger>
+            <TabsTrigger value="present">Présents</TabsTrigger>
+            <TabsTrigger value="absent">Absents</TabsTrigger>
+          </TabsList>
+
+          <div className="flex flex-col sm:flex-row items-end gap-4 mb-6">
+            <div className="w-full sm:w-auto">
+              <div className="relative flex-1">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="search"
+                  placeholder="Rechercher un employé..."
+                  className="pl-8"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="w-full sm:w-auto flex items-center gap-2">
+              <Calendar className="h-4 w-4 text-muted-foreground" />
               <Input
-                type="search"
-                placeholder="Rechercher un employé..."
-                className="pl-8"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                type="date"
+                value={dateFilter}
+                onChange={(e) => setDateFilter(e.target.value)}
+                className="w-full sm:w-auto"
               />
             </div>
+            <div className="w-full sm:w-auto">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectValue placeholder="Tous les statuts" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tous les statuts</SelectItem>
+                  <SelectItem value="Présent">Présent</SelectItem>
+                  <SelectItem value="Retard">Retard</SelectItem>
+                  <SelectItem value="Absent">Absent</SelectItem>
+                  <SelectItem value="Congé">Congé</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button className="w-full sm:w-auto ml-auto">
+              <ArrowDownUp className="mr-2 h-4 w-4" />
+              Exporter
+            </Button>
           </div>
-          <div className="w-full sm:w-auto flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-            <Input
-              type="date"
-              value={dateFilter}
-              onChange={(e) => setDateFilter(e.target.value)}
-              className="w-full sm:w-auto"
-            />
-          </div>
-          <div className="w-full sm:w-auto">
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Tous les statuts" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tous les statuts</SelectItem>
-                <SelectItem value="Présent">Présent</SelectItem>
-                <SelectItem value="Retard">Retard</SelectItem>
-                <SelectItem value="Absent">Absent</SelectItem>
-                <SelectItem value="Congé">Congé</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <Button className="w-full sm:w-auto">
-            <ArrowDownUp className="mr-2 h-4 w-4" />
-            Exporter
-          </Button>
-        </div>
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Employé</TableHead>
-                <TableHead>Heure d'arrivée</TableHead>
-                <TableHead>Heure de départ</TableHead>
-                <TableHead>Statut</TableHead>
-                <TableHead className="text-right">Heures travaillées</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredData.map((record) => (
-                <TableRow key={record.id}>
-                  <TableCell className="font-medium">{record.employee}</TableCell>
-                  <TableCell>{record.timeIn || "-"}</TableCell>
-                  <TableCell>{record.timeOut || "-"}</TableCell>
-                  <TableCell>
-                    <Badge variant={getStatusColor(record.status)}>
-                      {record.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">{record.workHours}</TableCell>
-                </TableRow>
-              ))}
-              {filteredData.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-4 text-muted-foreground">
-                    Aucun résultat trouvé
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
+
+          <TabsContent value="all" className="mt-0">
+            <div className="rounded-md border shadow-sm">
+              <Table>
+                <TableHeader className="bg-muted/20">
+                  <TableRow>
+                    <TableHead className="font-semibold">Employé</TableHead>
+                    <TableHead className="font-semibold">Heure d'arrivée</TableHead>
+                    <TableHead className="font-semibold">Heure de départ</TableHead>
+                    <TableHead className="font-semibold">Statut</TableHead>
+                    <TableHead className="text-right font-semibold">Heures travaillées</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredData.map((record) => (
+                    <TableRow key={record.id} className="hover:bg-muted/40">
+                      <TableCell className="font-medium">{record.employee}</TableCell>
+                      <TableCell>{record.timeIn || "-"}</TableCell>
+                      <TableCell>{record.timeOut || "-"}</TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusColor(record.status)} className="flex items-center w-fit">
+                          {getStatusIcon(record.status)}
+                          {record.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">{record.workHours > 0 ? `${record.workHours}h` : '-'}</TableCell>
+                    </TableRow>
+                  ))}
+                  {filteredData.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={5} className="text-center py-4 text-muted-foreground">
+                        Aucun résultat trouvé
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="present" className="mt-0">
+            <div className="rounded-md border shadow-sm">
+              <Table>
+                <TableHeader className="bg-muted/20">
+                  <TableRow>
+                    <TableHead className="font-semibold">Employé</TableHead>
+                    <TableHead className="font-semibold">Heure d'arrivée</TableHead>
+                    <TableHead className="font-semibold">Heure de départ</TableHead>
+                    <TableHead className="font-semibold">Statut</TableHead>
+                    <TableHead className="text-right font-semibold">Heures travaillées</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredData.map((record) => (
+                    <TableRow key={record.id} className="hover:bg-muted/40">
+                      <TableCell className="font-medium">{record.employee}</TableCell>
+                      <TableCell>{record.timeIn || "-"}</TableCell>
+                      <TableCell>{record.timeOut || "-"}</TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusColor(record.status)} className="flex items-center w-fit">
+                          {getStatusIcon(record.status)}
+                          {record.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">{record.workHours > 0 ? `${record.workHours}h` : '-'}</TableCell>
+                    </TableRow>
+                  ))}
+                  {filteredData.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={5} className="text-center py-4 text-muted-foreground">
+                        Aucun résultat trouvé
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="absent" className="mt-0">
+            <div className="rounded-md border shadow-sm">
+              <Table>
+                <TableHeader className="bg-muted/20">
+                  <TableRow>
+                    <TableHead className="font-semibold">Employé</TableHead>
+                    <TableHead className="font-semibold">Motif</TableHead>
+                    <TableHead className="font-semibold">Date</TableHead>
+                    <TableHead className="font-semibold">Statut</TableHead>
+                    <TableHead className="text-right font-semibold">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredData.map((record) => (
+                    <TableRow key={record.id} className="hover:bg-muted/40">
+                      <TableCell className="font-medium">{record.employee}</TableCell>
+                      <TableCell>{record.status === "Congé" ? "Congé payé" : "Non justifiée"}</TableCell>
+                      <TableCell>{record.date}</TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusColor(record.status)} className="flex items-center w-fit">
+                          {getStatusIcon(record.status)}
+                          {record.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="outline" size="sm" className="h-8">Détails</Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {filteredData.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={5} className="text-center py-4 text-muted-foreground">
+                        Aucun résultat trouvé
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </TabsContent>
+        </Tabs>
       </CardContent>
     </Card>
   );
