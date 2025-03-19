@@ -7,7 +7,7 @@ interface StatCardProps {
   value: string | number;
   icon: React.ReactNode;
   description?: string;
-  color?: "blue" | "green" | "red" | "yellow" | "gray";
+  color?: "blue" | "green" | "red" | "yellow" | "gray" | "purple";
 }
 
 export function StatCard({
@@ -15,7 +15,7 @@ export function StatCard({
   value,
   icon,
   description,
-  color = "blue",
+  color = "purple",
 }: StatCardProps) {
   const colorVariants = {
     blue: "from-blue-50/30 to-blue-100/20 dark:from-blue-900/5 dark:to-blue-900/5",
@@ -23,6 +23,7 @@ export function StatCard({
     red: "from-red-50/30 to-red-100/20 dark:from-red-900/5 dark:to-red-900/5",
     yellow: "from-yellow-50/30 to-yellow-100/20 dark:from-yellow-900/5 dark:to-yellow-900/5",
     gray: "from-gray-50/30 to-gray-100/20 dark:from-gray-900/5 dark:to-gray-900/5",
+    purple: "from-purple-50/30 to-purple-100/20 dark:from-purple-900/5 dark:to-purple-900/5",
   };
 
   const iconColorVariants = {
@@ -31,6 +32,7 @@ export function StatCard({
     red: "text-red-600/30 dark:text-red-400/30",
     yellow: "text-yellow-600/30 dark:text-yellow-400/30",
     gray: "text-gray-600/30 dark:text-gray-400/30",
+    purple: "text-purple-600/30 dark:text-purple-400/30",
   };
 
   return (

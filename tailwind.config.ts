@@ -68,8 +68,8 @@ export default {
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+					primary: 'hsl(var(--primary))',
+					'primary-foreground': 'hsl(var(--primary-foreground))',
 					accent: 'hsl(var(--sidebar-accent))',
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
@@ -80,7 +80,8 @@ export default {
 					green: '#10b981',
 					red: '#ef4444',
 					yellow: '#f59e0b',
-					gray: '#9ca3af'
+					gray: '#9ca3af',
+					purple: '#9b87f5' // Adding purple to the hr colors
 				}
 			},
 			borderRadius: {

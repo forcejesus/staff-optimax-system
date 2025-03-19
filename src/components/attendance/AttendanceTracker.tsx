@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -90,8 +91,8 @@ export function AttendanceTracker() {
   };
 
   return (
-    <Card className="shadow-md border border-indigo-100 dark:border-indigo-950/30">
-      <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-b">
+    <Card className="shadow-md border border-purple-100 dark:border-purple-950/30">
+      <CardHeader className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-950/30 dark:to-indigo-950/30 border-b">
         <CardTitle className="flex items-center gap-2 text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
@@ -100,16 +101,16 @@ export function AttendanceTracker() {
           </svg>
           Suivi des présences
         </CardTitle>
-        <CardDescription className="text-indigo-600/70 dark:text-indigo-400/70">
+        <CardDescription className="text-purple-600/70 dark:text-purple-400/70">
           Suivez les heures de travail et les présences de vos employés
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <TabsList className="grid w-full md:w-auto grid-cols-3 mb-4 bg-slate-100 dark:bg-slate-800/50">
-            <TabsTrigger value="all" className="data-[state=active]:bg-indigo-100 data-[state=active]:text-indigo-700 dark:data-[state=active]:bg-indigo-900/40 dark:data-[state=active]:text-indigo-200">Tous</TabsTrigger>
-            <TabsTrigger value="present" className="data-[state=active]:bg-indigo-100 data-[state=active]:text-indigo-700 dark:data-[state=active]:bg-indigo-900/40 dark:data-[state=active]:text-indigo-200">Présents</TabsTrigger>
-            <TabsTrigger value="absent" className="data-[state=active]:bg-indigo-100 data-[state=active]:text-indigo-700 dark:data-[state=active]:bg-indigo-900/40 dark:data-[state=active]:text-indigo-200">Absents</TabsTrigger>
+            <TabsTrigger value="all" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 dark:data-[state=active]:bg-purple-900/40 dark:data-[state=active]:text-purple-200">Tous</TabsTrigger>
+            <TabsTrigger value="present" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 dark:data-[state=active]:bg-purple-900/40 dark:data-[state=active]:text-purple-200">Présents</TabsTrigger>
+            <TabsTrigger value="absent" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 dark:data-[state=active]:bg-purple-900/40 dark:data-[state=active]:text-purple-200">Absents</TabsTrigger>
           </TabsList>
 
           <AttendanceFilter 
