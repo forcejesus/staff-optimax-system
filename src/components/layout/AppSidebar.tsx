@@ -1,3 +1,4 @@
+
 import { NavLink, useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, 
@@ -25,6 +26,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuBadge,
   SidebarSeparator
 } from "@/components/ui/sidebar";
 
@@ -114,8 +116,8 @@ export function AppSidebar() {
                       <span>{item.label}</span>
                       {item.badge && (
                         <Badge 
-                          variant="outline" 
-                          className="ml-auto text-xs bg-primary/10 hover:bg-primary/20"
+                          variant={item.badge === "Nouveau" ? "default" : "outline"}
+                          className={`ml-auto text-xs ${item.badge === "Nouveau" ? "bg-primary text-primary-foreground" : "bg-primary/10 hover:bg-primary/20"}`}
                         >
                           {item.badge}
                         </Badge>
