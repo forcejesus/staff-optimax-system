@@ -1,10 +1,8 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AttendanceFilter } from "./AttendanceFilter";
 import { AttendanceTable } from "./AttendanceTable";
-import { AttendanceSummary } from "./AttendanceSummary";
 import { attendanceData } from "./attendanceData";
 import { 
   Pagination, 
@@ -107,9 +105,6 @@ export function AttendanceTracker() {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
-        {/* Add the attendance summary at the top */}
-        <AttendanceSummary data={attendanceData} />
-        
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <TabsList className="grid w-full md:w-auto grid-cols-3 mb-4 bg-slate-100 dark:bg-slate-800/50">
             <TabsTrigger value="all" className="data-[state=active]:bg-indigo-100 data-[state=active]:text-indigo-700 dark:data-[state=active]:bg-indigo-900/40 dark:data-[state=active]:text-indigo-200">Tous</TabsTrigger>
