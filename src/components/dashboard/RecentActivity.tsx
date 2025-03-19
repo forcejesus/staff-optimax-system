@@ -45,20 +45,20 @@ const activities = [
 
 export function RecentActivity() {
   return (
-    <Card className="border-dashed border-muted/70">
-      <CardHeader className="flex flex-row items-center justify-between opacity-70">
+    <Card className="border-dashed border-2 border-muted/40 backdrop-blur-sm bg-card/30">
+      <CardHeader className="flex flex-row items-center justify-between opacity-50">
         <div>
           <CardTitle>Activités récentes</CardTitle>
           <CardDescription>
             Les 5 dernières activités dans le système
           </CardDescription>
         </div>
-        <Button variant="ghost" size="sm" className="gap-1 opacity-50">
+        <Button variant="ghost" size="sm" className="gap-1 opacity-30">
           Voir tout <ArrowRight className="h-4 w-4" />
         </Button>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4 opacity-60">
+        <div className="space-y-4 opacity-40">
           {activities.map((activity, index) => (
             <div key={index}>
               <div className="flex items-center justify-between">
@@ -77,7 +77,7 @@ export function RecentActivity() {
                         ? "destructive"
                         : "outline"
                     }
-                    className="ml-2 opacity-50"
+                    className="ml-2 opacity-30"
                   >
                     {activity.status}
                   </Badge>
