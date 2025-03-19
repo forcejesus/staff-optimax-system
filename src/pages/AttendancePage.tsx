@@ -6,7 +6,7 @@ import { StatCard } from "@/components/dashboard/StatCard";
 const AttendancePage = () => {
   return (
     <div className="flex flex-col space-y-8">
-      <div className="pb-2 border-b">
+      <div className="pb-2 border-b border-indigo-100 dark:border-indigo-900/30">
         <h1 className="text-2xl font-bold tracking-tight mb-1 text-indigo-700 dark:text-indigo-300 flex items-center gap-2">
           <Users className="h-6 w-6" />
           Suivi des présences
