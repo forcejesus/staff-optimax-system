@@ -93,9 +93,16 @@ export function AttendanceTracker() {
 
   return (
     <Card className="shadow-md">
-      <CardHeader className="bg-muted/30 border-b">
-        <CardTitle>Suivi des présences</CardTitle>
-        <CardDescription>
+      <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-b">
+        <CardTitle className="flex items-center gap-2 text-indigo-700 dark:text-indigo-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <polyline points="16 11 18 13 22 9"></polyline>
+          </svg>
+          Suivi des présences
+        </CardTitle>
+        <CardDescription className="text-indigo-600/70 dark:text-indigo-400/70">
           Suivez les heures de travail et les présences de vos employés
         </CardDescription>
       </CardHeader>
@@ -104,10 +111,10 @@ export function AttendanceTracker() {
         <AttendanceSummary data={attendanceData} />
         
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-          <TabsList className="grid w-full md:w-auto grid-cols-3 mb-4">
-            <TabsTrigger value="all">Tous</TabsTrigger>
-            <TabsTrigger value="present">Présents</TabsTrigger>
-            <TabsTrigger value="absent">Absents</TabsTrigger>
+          <TabsList className="grid w-full md:w-auto grid-cols-3 mb-4 bg-slate-100 dark:bg-slate-800/50">
+            <TabsTrigger value="all" className="data-[state=active]:bg-indigo-100 data-[state=active]:text-indigo-700 dark:data-[state=active]:bg-indigo-900/40 dark:data-[state=active]:text-indigo-200">Tous</TabsTrigger>
+            <TabsTrigger value="present" className="data-[state=active]:bg-indigo-100 data-[state=active]:text-indigo-700 dark:data-[state=active]:bg-indigo-900/40 dark:data-[state=active]:text-indigo-200">Présents</TabsTrigger>
+            <TabsTrigger value="absent" className="data-[state=active]:bg-indigo-100 data-[state=active]:text-indigo-700 dark:data-[state=active]:bg-indigo-900/40 dark:data-[state=active]:text-indigo-200">Absents</TabsTrigger>
           </TabsList>
 
           <AttendanceFilter 
