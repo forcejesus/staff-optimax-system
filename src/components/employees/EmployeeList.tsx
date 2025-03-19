@@ -66,7 +66,11 @@ const employees = [
   },
 ];
 
-export function EmployeeList() {
+interface EmployeeListProps {
+  onAddEmployee?: () => void;
+}
+
+export function EmployeeList({ onAddEmployee }: EmployeeListProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredEmployees = employees.filter((employee) => {
@@ -82,7 +86,7 @@ export function EmployeeList() {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle>Liste des employés</CardTitle>
-        <Button className="ml-auto" size="sm">
+        <Button className="ml-auto" size="sm" onClick={onAddEmployee}>
           <Plus className="mr-2 h-4 w-4" />
           Ajouter un employé
         </Button>

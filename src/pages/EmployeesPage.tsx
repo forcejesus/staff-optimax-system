@@ -40,7 +40,7 @@ const EmployeesPage = () => {
           <TabsTrigger value="advancements">Avancements</TabsTrigger>
         </TabsList>
         <TabsContent value="list">
-          <EmployeeList />
+          <EmployeeList onAddEmployee={() => setActiveTab("add")} />
         </TabsContent>
         <TabsContent value="add">
           <EmployeeForm />
