@@ -39,8 +39,11 @@ const LoginPage = () => {
               <LogIn className="h-8 w-8 text-primary-foreground" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold">RH++</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-3xl font-bold mb-1 text-primary">Gestion RH ++</CardTitle>
+          <div className="bg-secondary inline-block px-3 py-1 rounded-full mb-3">
+            <span className="text-primary-foreground font-admin font-semibold">GRH+</span>
+          </div>
+          <CardDescription className="text-lg">
             Entrez vos identifiants pour accéder à votre compte
           </CardDescription>
         </CardHeader>

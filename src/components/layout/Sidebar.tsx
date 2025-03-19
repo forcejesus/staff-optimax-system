@@ -59,9 +59,12 @@ export function Sidebar() {
     >
       <div className="flex h-14 items-center border-b px-4">
         {!isCollapsed ? (
-          <h1 className="text-lg font-bold text-sidebar-foreground">RH++</h1>
+          <div className="flex flex-col">
+            <h1 className="text-lg font-bold text-primary">Gestion RH ++</h1>
+            <span className="text-xs font-semibold text-muted-foreground">GRH+</span>
+          </div>
         ) : (
-          <span className="text-xl font-bold text-sidebar-foreground">RH++</span>
+          <span className="text-xl font-bold text-primary">GRH+</span>
         )}
         <Button
           variant="ghost"
