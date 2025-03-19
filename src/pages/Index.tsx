@@ -10,7 +10,7 @@ const Index = () => {
     <div className="flex flex-col space-y-8">
       <UnderDevelopmentBanner />
       
-      <div>
+      <div className="opacity-80">
         <h1 className="text-2xl font-bold tracking-tight">Tableau de bord</h1>
         <p className="text-muted-foreground">
           Bienvenue sur votre tableau de bord de gestion des ressources humaines
@@ -54,6 +54,6 @@ const Index = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Index;
