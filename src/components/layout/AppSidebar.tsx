@@ -48,7 +48,7 @@ export function AppSidebar() {
 
   const secondaryMenuItems = [
     { to: "/performance", icon: BarChart3, label: "Performances" },
-    { to: "/training", icon: BookOpen, label: "Formations", badge: "Nouveau" },
+    { to: "/training", icon: BookOpen, label: "Formations" },
     { to: "/recruitment", icon: UserPlus, label: "Recrutement" },
     { to: "/retirement", icon: Building, label: "Retraite" },
   ];
