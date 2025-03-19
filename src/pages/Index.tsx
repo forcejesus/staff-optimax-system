@@ -1,3 +1,4 @@
+
 import { Clock, UserPlus, Calendar, Award, Users } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
@@ -16,7 +17,7 @@ const Index = () => {
       
       <UnderDevelopmentBanner />
       
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 opacity-50 blur-[1px] hover:blur-0 hover:opacity-75 transition-all duration-300">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 animate-fade-in">
         <StatCard
           title="Employés actifs"
           value="42"
@@ -47,7 +48,7 @@ const Index = () => {
         />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 opacity-40 blur-[2px] hover:blur-0 hover:opacity-70 transition-all duration-300">
+      <div className="grid gap-4 md:grid-cols-2 animate-fade-in" style={{ animationDelay: "150ms" }}>
         <RecentActivity />
         <UpcomingLeave />
       </div>
