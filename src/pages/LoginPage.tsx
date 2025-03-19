@@ -39,7 +39,7 @@ const LoginPage = () => {
               <LogIn className="h-8 w-8 text-primary-foreground" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold">Staff Optimax</CardTitle>
+          <CardTitle className="text-2xl font-bold">RH++</CardTitle>
           <CardDescription>
             Entrez vos identifiants pour accéder à votre compte
           </CardDescription>

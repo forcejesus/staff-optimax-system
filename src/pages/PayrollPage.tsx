@@ -1,3 +1,4 @@
+
 import { UnderDevelopmentBanner } from "@/components/ui/under-development-banner";
 
 const PayrollPage = () => {
