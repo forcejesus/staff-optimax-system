@@ -7,7 +7,7 @@ const AttendancePage = () => {
   return (
     <div className="flex flex-col space-y-8">
       <div className="pb-2 border-b border-indigo-100 dark:border-indigo-900/30">
-        <h1 className="text-2xl font-bold tracking-tight mb-1 text-black dark:text-white flex items-center gap-2">
+        <h1 className="text-2xl font-bold tracking-tight mb-1 text-primary flex items-center gap-2">
           <Users className="h-6 w-6" />
           Suivi des présences
         </h1>

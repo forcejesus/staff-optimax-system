@@ -92,7 +92,7 @@ export function AttendanceTracker() {
   return (
     <Card className="shadow-md border border-indigo-100 dark:border-indigo-950/30">
       <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-b">
-        <CardTitle className="flex items-center gap-2 text-black dark:text-white">
+        <CardTitle className="flex items-center gap-2 text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>

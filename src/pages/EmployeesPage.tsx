@@ -15,7 +15,7 @@ const EmployeesPage = () => {
     <div className="flex flex-col space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Gestion des employés</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-primary">Gestion des employés</h1>
           <p className="text-muted-foreground">
             Gérez l'ensemble de vos employés et leurs informations
           </p>

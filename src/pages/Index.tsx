@@ -9,7 +9,7 @@ const Index = () => {
   return (
     <div className="flex flex-col space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Tableau de bord</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-primary">Tableau de bord</h1>
         <p className="text-muted-foreground">
           Bienvenue sur votre tableau de bord de gestion des ressources humaines
         </p>

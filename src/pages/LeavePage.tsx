@@ -14,7 +14,7 @@ const LeavePage = () => {
     <div className="flex flex-col space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Gestion des congés et permissions</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-primary">Gestion des congés et permissions</h1>
           <p className="text-muted-foreground">
             Gérez et planifiez les congés, absences et permissions exceptionnelles
           </p>
