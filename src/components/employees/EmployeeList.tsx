@@ -1,8 +1,8 @@
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Search, Plus, MoreHorizontal, Eye, Edit, Trash, UserCircle } from "lucide-react";
+import { Search, MoreHorizontal, Eye, Edit, Trash, UserCircle } from "lucide-react";
 
 // Données fictives pour les employés avec des noms africains
 const employees = [
@@ -84,12 +84,8 @@ export function EmployeeList({ onAddEmployee }: EmployeeListProps) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <CardHeader className="pb-2">
         <CardTitle>Liste des employés</CardTitle>
-        <Button className="ml-auto" size="sm" onClick={onAddEmployee}>
-          <Plus className="mr-2 h-4 w-4" />
-          Ajouter un employé
-        </Button>
       </CardHeader>
       <CardContent>
         <div className="flex items-center py-4">
