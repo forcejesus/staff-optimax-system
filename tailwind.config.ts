@@ -19,6 +19,18 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Source Sans Pro', 'Roboto', 'system-ui', 'sans-serif'],
+				admin: ['Roboto', 'system-ui', 'sans-serif'],
+			},
+			fontSize: {
+				'base': '1rem',
+				'lg': '1.125rem',
+				'xl': '1.25rem',
+				'2xl': '1.5rem',
+				'3xl': '1.875rem',
+				'4xl': '2.25rem',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

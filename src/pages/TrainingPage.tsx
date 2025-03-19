@@ -5,8 +5,8 @@ const TrainingPage = () => {
   return (
     <div className="flex flex-col space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Gestion des formations</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-2xl font-bold tracking-tight font-admin">Gestion des formations</h1>
+        <p className="text-muted-foreground text-lg">
           Planifiez et suivez les formations de vos employés
         </p>
       </div>

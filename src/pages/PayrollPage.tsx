@@ -5,8 +5,8 @@ const PayrollPage = () => {
   return (
     <div className="flex flex-col space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Gestion de la paie</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-2xl font-bold tracking-tight font-admin">Gestion de la paie</h1>
+        <p className="text-muted-foreground text-lg">
           Gérez les salaires, primes et indemnités de vos employés
         </p>
       </div>
