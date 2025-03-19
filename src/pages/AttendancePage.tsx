@@ -1,7 +1,7 @@
 
 import { AttendanceTracker } from "@/components/attendance/AttendanceTracker";
 import { Clock, Calendar, Users, AlertTriangle } from "lucide-react";
-import { StatCard } from "@/components/dashboard/StatCard";
+import { ClearStatCard } from "@/components/dashboard/ClearStatCard";
 
 const AttendancePage = () => {
   return (
@@ -17,28 +17,28 @@ const AttendancePage = () => {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
+        <ClearStatCard
           title="Présences aujourd'hui"
           value="42/48"
           description="Employés présents"
           icon={<Users className="h-6 w-6" />}
           color="purple"
         />
-        <StatCard 
+        <ClearStatCard 
           title="Heures travaillées"
           value="182h"
           description="Cette semaine"
           icon={<Clock className="h-6 w-6" />}
           color="blue"
         />
-        <StatCard 
+        <ClearStatCard 
           title="Absences"
           value="6"
           description="Aujourd'hui"
           icon={<Calendar className="h-6 w-6" />}
           color="yellow"
         />
-        <StatCard 
+        <ClearStatCard 
           title="Retards"
           value="3"
           description="Cette semaine"
