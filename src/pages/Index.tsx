@@ -1,4 +1,3 @@
-
 import { Clock, UserPlus, Calendar, Award, Users } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";

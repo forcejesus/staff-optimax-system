@@ -7,35 +7,35 @@ import { ArrowRight } from "lucide-react";
 
 const activities = [
   {
-    user: "Mutombo Kabongo",
+    user: "Mabiala Mouzembo",
     action: "a demandé un congé",
     date: "Il y a 2 heures",
     status: "En attente",
     statusType: "warning",
   },
   {
-    user: "Lisanga Bofassa",
+    user: "Ngouabi Massamba",
     action: "a été ajouté à l'équipe",
     date: "Il y a 1 jour",
     status: "Nouveau",
     statusType: "success",
   },
   {
-    user: "Balewula Nzinga",
+    user: "Matsima Kimbembé",
     action: "a complété sa formation",
     date: "Il y a 2 jours",
     status: "Terminé",
     statusType: "success",
   },
   {
-    user: "Bokolo Mbemba",
+    user: "Milandou Batéké",
     action: "est absent aujourd'hui",
     date: "Aujourd'hui",
     status: "Absent",
     statusType: "danger",
   },
   {
-    user: "Makeba Ngoma",
+    user: "Malonga Nkouka",
     action: "a modifié son profil",
     date: "Il y a 3 jours",
     status: "Mis à jour",
