@@ -76,12 +76,12 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				hr: {
-					blue: '#3b82f6',
+					blue: 'hsl(213.75deg 55.01% 53.08%)',
 					green: '#10b981',
 					red: '#ef4444',
 					yellow: '#f59e0b',
 					gray: '#9ca3af',
-					purple: '#9b87f5' // Adding purple to the hr colors
+					purple: '#9b87f5'
 				}
 			},
 			borderRadius: {

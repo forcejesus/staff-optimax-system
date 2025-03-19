@@ -6,7 +6,7 @@ import { ClearStatCard } from "@/components/dashboard/ClearStatCard";
 const AttendancePage = () => {
   return (
     <div className="flex flex-col space-y-8">
-      <div className="pb-2 border-b border-purple-100 dark:border-purple-900/30">
+      <div className="pb-2 border-b border-blue-100 dark:border-blue-900/30">
         <h1 className="text-2xl font-bold tracking-tight mb-1 text-primary flex items-center gap-2">
           <Users className="h-6 w-6" />
           Suivi des présences
@@ -22,7 +22,7 @@ const AttendancePage = () => {
           value="42/48"
           description="Employés présents"
           icon={<Users className="h-6 w-6" />}
-          color="purple"
+          color="blue"
         />
         <ClearStatCard 
           title="Heures travaillées"
@@ -36,20 +36,20 @@ const AttendancePage = () => {
           value="6"
           description="Aujourd'hui"
           icon={<Calendar className="h-6 w-6" />}
-          color="yellow"
+          color="blue"
         />
         <ClearStatCard 
           title="Retards"
           value="3"
           description="Cette semaine"
           icon={<AlertTriangle className="h-6 w-6" />}
-          color="red"
+          color="blue"
         />
       </div>
 
       <AttendanceTracker />
     </div>
   );
-};
+}
 
 export default AttendancePage;

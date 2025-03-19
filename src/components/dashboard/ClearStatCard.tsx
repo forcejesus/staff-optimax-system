@@ -15,7 +15,7 @@ export function ClearStatCard({
   value,
   icon,
   description,
-  color = "purple",
+  color = "blue",
 }: ClearStatCardProps) {
   const colorVariants = {
     blue: "from-blue-50 to-blue-100/70 dark:from-blue-900/20 dark:to-blue-900/10",
@@ -27,7 +27,7 @@ export function ClearStatCard({
   };
 
   const iconColorVariants = {
-    blue: "text-blue-600 dark:text-blue-400",
+    blue: "text-primary dark:text-primary",
     green: "text-green-600 dark:text-green-400",
     red: "text-red-600 dark:text-red-400",
     yellow: "text-yellow-600 dark:text-yellow-400",
