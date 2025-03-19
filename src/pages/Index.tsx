@@ -3,10 +3,13 @@ import { Clock, UserPlus, Calendar, Award, Users } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { UpcomingLeave } from "@/components/dashboard/UpcomingLeave";
+import { UnderDevelopmentBanner } from "@/components/ui/under-development-banner";
 
 const Index = () => {
   return (
     <div className="flex flex-col space-y-8">
+      <UnderDevelopmentBanner />
+      
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Tableau de bord</h1>
         <p className="text-muted-foreground">
