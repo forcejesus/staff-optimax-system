@@ -6,21 +6,21 @@ import { Badge } from "@/components/ui/badge";
 
 const leaves = [
   {
-    employee: "Sophie Martin",
+    employee: "Kamwanya Wembo",
     department: "Marketing",
     startDate: "14/10/2023",
     endDate: "21/10/2023",
     type: "Congés payés",
   },
   {
-    employee: "Jean Dupont",
+    employee: "Lubaki Mabele",
     department: "Développement",
     startDate: "18/10/2023",
     endDate: "19/10/2023", 
     type: "RTT",
   },
   {
-    employee: "Marie Lambert",
+    employee: "Kiese Tumba",
     department: "Ressources Humaines",
     startDate: "23/10/2023",
     endDate: "27/10/2023",
