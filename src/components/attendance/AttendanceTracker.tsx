@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AttendanceFilter } from "./AttendanceFilter";
 import { AttendanceTable } from "./AttendanceTable";
+import { AttendanceSummary } from "./AttendanceSummary";
 import { attendanceData } from "./attendanceData";
 
 export function AttendanceTracker() {
@@ -30,6 +31,9 @@ export function AttendanceTracker() {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
+        {/* Add the attendance summary at the top */}
+        <AttendanceSummary data={attendanceData} />
+        
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <TabsList className="grid w-full md:w-auto grid-cols-3 mb-4">
             <TabsTrigger value="all">Tous</TabsTrigger>
