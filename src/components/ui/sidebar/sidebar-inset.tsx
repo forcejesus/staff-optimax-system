@@ -20,5 +20,4 @@ export const SidebarInset = React.forwardRef<
 })
 SidebarInset.displayName = "SidebarInset"
 
-// Export from index.ts
-export { SidebarInset }
+// Remove the duplicate export here

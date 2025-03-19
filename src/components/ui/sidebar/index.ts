@@ -14,3 +14,4 @@ export * from './sidebar-rail';
 export * from './sidebar-separator';
 export * from './sidebar-trigger';
 export * from './sidebar-types';
+export * from './sidebar-inset';
