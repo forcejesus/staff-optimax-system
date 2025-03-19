@@ -6,8 +6,58 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle2, Circle, ArrowRight } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+
+// Define the form schema
+const formSchema = z.object({
+  employee: z.string().optional(),
+  retirementDate: z.string().optional(),
+  retirementType: z.string().optional(),
+  comments: z.string().optional(),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 export function RetirementProcess() {
+  // Initialize the React Hook Form
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      employee: "",
+      retirementDate: "",
+      retirementType: "",
+      comments: "",
+    },
+  });
+
+  const [documentCheckboxes, setDocumentCheckboxes] = useState({
+    attestation: false,
+    certificat: false,
+    solde: false,
+    attestationPole: false,
+    releve: false,
+  });
+
+  const handleDocumentCheckboxChange = (document: keyof typeof documentCheckboxes) => {
+    setDocumentCheckboxes(prev => ({
+      ...prev,
+      [document]: !prev[document]
+    }));
+  };
+
+  const handleStepCompletion = () => {
+    // Logic to mark step as completed
+    console.log("Step marked as completed");
+  };
+
+  const onSubmit = (data: FormValues) => {
+    console.log("Form submitted:", data);
+    // Handle form submission
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -57,26 +107,51 @@ export function RetirementProcess() {
                   </p>
                   <div className="mt-4 p-4 border rounded-md space-y-4">
                     <div className="flex items-center">
-                      <input type="checkbox" className="mr-2" />
+                      <input 
+                        type="checkbox" 
+                        className="mr-2" 
+                        checked={documentCheckboxes.attestation}
+                        onChange={() => handleDocumentCheckboxChange('attestation')}
+                      />
                       <span>Attestation de fin de carrière</span>
                     </div>
                     <div className="flex items-center">
-                      <input type="checkbox" className="mr-2" />
+                      <input 
+                        type="checkbox" 
+                        className="mr-2" 
+                        checked={documentCheckboxes.certificat}
+                        onChange={() => handleDocumentCheckboxChange('certificat')}
+                      />
                       <span>Certificat de travail</span>
                     </div>
                     <div className="flex items-center">
-                      <input type="checkbox" className="mr-2" />
+                      <input 
+                        type="checkbox" 
+                        className="mr-2" 
+                        checked={documentCheckboxes.solde}
+                        onChange={() => handleDocumentCheckboxChange('solde')}
+                      />
                       <span>Solde de tout compte</span>
                     </div>
                     <div className="flex items-center">
-                      <input type="checkbox" className="mr-2" />
+                      <input 
+                        type="checkbox" 
+                        className="mr-2" 
+                        checked={documentCheckboxes.attestationPole}
+                        onChange={() => handleDocumentCheckboxChange('attestationPole')}
+                      />
                       <span>Attestation Pôle Emploi</span>
                     </div>
                     <div className="flex items-center">
-                      <input type="checkbox" className="mr-2" />
+                      <input 
+                        type="checkbox" 
+                        className="mr-2" 
+                        checked={documentCheckboxes.releve}
+                        onChange={() => handleDocumentCheckboxChange('releve')}
+                      />
                       <span>Relevé de situation individuelle</span>
                     </div>
-                    <Button className="w-full">Marquer comme terminé</Button>
+                    <Button className="w-full" onClick={handleStepCompletion}>Marquer comme terminé</Button>
                   </div>
                 </div>
               </div>
@@ -116,49 +191,93 @@ export function RetirementProcess() {
           <CardTitle>Demande de départ à la retraite</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <FormLabel htmlFor="employee">Employé</FormLabel>
-                <Select>
-                  <SelectTrigger id="employee">
-                    <SelectValue placeholder="Sélectionner un employé" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="robert">Robert Lefèvre</SelectItem>
-                    <SelectItem value="jeanne">Jeanne Moreau</SelectItem>
-                    <SelectItem value="michel">Michel Durand</SelectItem>
-                    <SelectItem value="francoise">Françoise Blanc</SelectItem>
-                    <SelectItem value="philippe">Philippe Martin</SelectItem>
-                  </SelectContent>
-                </Select>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="employee"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Employé</FormLabel>
+                      <Select 
+                        onValueChange={field.onChange} 
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Sélectionner un employé" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="robert">Robert Lefèvre</SelectItem>
+                          <SelectItem value="jeanne">Jeanne Moreau</SelectItem>
+                          <SelectItem value="michel">Michel Durand</SelectItem>
+                          <SelectItem value="francoise">Françoise Blanc</SelectItem>
+                          <SelectItem value="philippe">Philippe Martin</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="retirementDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Date de départ prévue</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               </div>
-              <div className="space-y-2">
-                <FormLabel htmlFor="retirementDate">Date de départ prévue</FormLabel>
-                <Input id="retirementDate" type="date" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <FormLabel htmlFor="retirementType">Type de départ</FormLabel>
-              <Select>
-                <SelectTrigger id="retirementType">
-                  <SelectValue placeholder="Sélectionner le type de départ" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="normal">Retraite normale</SelectItem>
-                  <SelectItem value="early">Retraite anticipée</SelectItem>
-                  <SelectItem value="disability">Retraite pour invalidité</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <FormLabel htmlFor="comments">Commentaires</FormLabel>
-              <Textarea id="comments" placeholder="Informations complémentaires..." />
-            </div>
-            <Button className="w-full">
-              Soumettre la demande
-            </Button>
-          </div>
+              
+              <FormField
+                control={form.control}
+                name="retirementType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Type de départ</FormLabel>
+                    <Select 
+                      onValueChange={field.onChange} 
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Sélectionner le type de départ" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="normal">Retraite normale</SelectItem>
+                        <SelectItem value="early">Retraite anticipée</SelectItem>
+                        <SelectItem value="disability">Retraite pour invalidité</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="comments"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Commentaires</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Informations complémentaires..." {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <Button type="submit" className="w-full">
+                Soumettre la demande
+              </Button>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>
