@@ -8,15 +8,15 @@ import { UnderDevelopmentBanner } from "@/components/ui/under-development-banner
 const Index = () => {
   return (
     <div className="flex flex-col space-y-8">
-      <UnderDevelopmentBanner />
-      
-      <div className="opacity-60">
+      <div>
         <h1 className="text-2xl font-bold tracking-tight">Tableau de bord</h1>
         <p className="text-muted-foreground">
           Bienvenue sur votre tableau de bord de gestion des ressources humaines
         </p>
       </div>
-
+      
+      <UnderDevelopmentBanner />
+      
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 opacity-50 blur-[1px] hover:blur-0 hover:opacity-75 transition-all duration-300">
         <StatCard
           title="Employés actifs"
