@@ -21,56 +21,35 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Search, MoreHorizontal, Eye, Edit, Trash, UserCircle } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
-// Données fictives pour les employés avec des noms africains
-const employees = [
-  {
-    id: 1,
-    name: "Kofi Annan",
-    email: "kofi.annan@example.com",
-    department: "Ressources Humaines",
-    position: "Responsable RH",
-    status: "Actif",
-  },
-  {
-    id: 2,
-    name: "Fatou Diallo",
-    email: "fatou.diallo@example.com",
-    department: "Marketing",
-    position: "Chef de Projet",
-    status: "Actif",
-  },
-  {
-    id: 3,
-    name: "Amadou Diop",
-    email: "amadou.diop@example.com",
-    department: "Développement",
-    position: "Développeur Front-end",
-    status: "Actif",
-  },
-  {
-    id: 4,
-    name: "Aminata Touré",
-    email: "aminata.toure@example.com",
-    department: "Comptabilité",
-    position: "Comptable",
-    status: "En congé",
-  },
-  {
-    id: 5,
-    name: "Mamadou Sow",
-    email: "mamadou.sow@example.com",
-    department: "Commercial",
-    position: "Responsable Commercial",
-    status: "Actif",
-  },
-];
-
-interface EmployeeListProps {
-  onAddEmployee?: () => void;
+interface Employee {
+  id: number;
+  name: string;
+  email: string;
+  department: string;
+  position: string;
+  status: string;
 }
 
-export function EmployeeList({ onAddEmployee }: EmployeeListProps) {
+interface EmployeeListProps {
+  employees: Employee[];
+  onView: (id: number) => void;
+  onEdit: (id: number) => void;
+  onDelete: (id: number) => void;
+}
+
+export function EmployeeList({ employees, onView, onEdit, onDelete }: EmployeeListProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredEmployees = employees.filter((employee) => {
@@ -149,19 +128,38 @@ export function EmployeeList({ onAddEmployee }: EmployeeListProps) {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onView(employee.id)}>
                           <Eye className="mr-2 h-4 w-4" />
                           Voir les détails
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onEdit(employee.id)}>
                           <Edit className="mr-2 h-4 w-4" />
                           Modifier
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-destructive">
-                          <Trash className="mr-2 h-4 w-4" />
-                          Supprimer
-                        </DropdownMenuItem>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <DropdownMenuItem className="text-destructive" onSelect={(e) => e.preventDefault()}>
+                              <Trash className="mr-2 h-4 w-4" />
+                              Supprimer
+                            </DropdownMenuItem>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Cette action est irréversible. Elle supprimera définitivement
+                                l'employé et toutes les données associées.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Annuler</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => onDelete(employee.id)}>
+                                Confirmer
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
