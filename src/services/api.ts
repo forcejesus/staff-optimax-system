@@ -23,6 +23,8 @@ export const authService = {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username: email, password }),
+        // Ne pas inclure credentials: "include" à moins que l'API ne le demande spécifiquement
+        // credentials: "include"
       });
 
       if (!response.ok) {
@@ -58,4 +60,3 @@ export const leaveService = {
 export const attendanceService = {
   // Futures méthodes pour la gestion des présences
 };
-
