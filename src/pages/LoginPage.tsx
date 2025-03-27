@@ -1,33 +1,25 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogIn, User, Key } from "lucide-react";
-import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { login, isLoading } = useAuth();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     
-    // Simulate authentication - in a real app, this would call an API
-    setTimeout(() => {
-      setIsLoading(false);
-      if (email && password) {
-        toast.success("Connexion réussie");
-        navigate("/");
-      } else {
-        toast.error("Veuillez remplir tous les champs");
-      }
-    }, 1000);
+    if (!email || !password) {
+      return;
+    }
+    
+    await login(email, password);
   };
 
   return (

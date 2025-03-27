@@ -1,6 +1,8 @@
 
-import { BellIcon, SearchIcon, UserCircle } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,63 +11,54 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export function Header() {
+  const isMobile = useIsMobile();
+  const { user, logout } = useAuth();
+
+  const initials = user && user.employe 
+    ? `${user.employe.employe_nom.charAt(0)}${user.employe.employe_prenom.charAt(0)}`
+    : "U";
+
+  const fullName = user && user.employe 
+    ? `${user.employe.employe_nom} ${user.employe.employe_prenom}`
+    : "Utilisateur";
+
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-background px-4 lg:px-6">
-      <div className="w-full flex items-center gap-2">
-        <form className="hidden md:flex-1 md:flex max-w-sm">
-          <div className="relative flex-1">
-            <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Rechercher..."
-              className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-            />
-          </div>
-        </form>
-        <div className="ml-auto flex items-center gap-2">
+    <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
+      <div className="flex h-16 items-center px-4 sm:px-6">
+        <div className="flex grow items-center justify-start gap-2 text-center">
+          {isMobile && (
+            <div className="text-lg font-semibold">GRH+</div>
+          )}
+        </div>
+        
+        <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative"
-                aria-label="Notifications"
-              >
-                <BellIcon className="h-5 w-5" />
-                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-medium text-destructive-foreground">
-                  3
-                </span>
+              <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                <Avatar>
+                  <AvatarFallback className="bg-primary text-primary-foreground">
+                    {initials}
+                  </AvatarFallback>
+                </Avatar>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium leading-none">{fullName}</p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    {user?.employe?.employe_email}
+                  </p>
+                </div>
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Demande de congé en attente</DropdownMenuItem>
-              <DropdownMenuItem>Nouvel employé à valider</DropdownMenuItem>
-              <DropdownMenuItem>Évaluation à compléter</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full"
-                aria-label="User Settings"
-              >
-                <UserCircle className="h-6 w-6" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profil</DropdownMenuItem>
-              <DropdownMenuItem>Paramètres</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Déconnexion</DropdownMenuItem>
+              <DropdownMenuItem onClick={logout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Se déconnecter</span>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
