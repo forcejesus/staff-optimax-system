@@ -33,6 +33,11 @@ export function EmployeeEdit({ employee, onSave, onCancel }: EmployeeEditProps) 
   const { toast } = useToast();
   const { token } = useAuth();
   
+  // Log employee data for debugging
+  useEffect(() => {
+    console.log("Employee data received:", employee);
+  }, [employee]);
+  
   // Récupérer la liste des départements
   const { data: departments = [], isLoading: isLoadingDepartments } = useQuery({
     queryKey: ["departments"],
@@ -47,6 +52,7 @@ export function EmployeeEdit({ employee, onSave, onCancel }: EmployeeEditProps) 
   const updateEmployeeMutation = useMutation({
     mutationFn: (data: any) => {
       if (!token) throw new Error("Token manquant");
+      console.log("Updating employee with data:", data);
       return employeeService.update(token, employee.id, data);
     },
     onSuccess: (data) => {
@@ -57,6 +63,7 @@ export function EmployeeEdit({ employee, onSave, onCancel }: EmployeeEditProps) 
       onSave(data);
     },
     onError: (error) => {
+      console.error("Error updating employee:", error);
       toast({
         title: "Erreur",
         description: "Impossible de mettre à jour l'employé. Veuillez réessayer.",
@@ -82,17 +89,17 @@ export function EmployeeEdit({ employee, onSave, onCancel }: EmployeeEditProps) 
       prenom: formData.prenom,
       nom: formData.nom,
       email: formData.email,
-      telephone: formData.telephone,
-      adresse: formData.adresse,
-      nationalite: formData.nationalite,
-      genre: formData.genre,
-      departement_id: Number(formData.departement_id),
+      telephone: formData.telephone || "",
+      adresse: formData.adresse || "",
+      nationalite: formData.nationalite || "",
+      genre: formData.genre || "",
+      departement_id: Number(formData.departement_id) || 0,
       poste_id: Number(formData.poste_id || 0),
       manager_id: Number(formData.manager_id || 0),
-      lieu_travail: formData.lieu_travail,
-      type_contrat: formData.type_contrat,
-      statut: formData.statut,
-      numero_securite_sociale: formData.numero_securite_sociale,
+      lieu_travail: formData.lieu_travail || "",
+      type_contrat: formData.type_contrat || "",
+      statut: formData.statut || "Actif",
+      numero_securite_sociale: formData.numero_securite_sociale || "",
       informations_bancaires: formData.informations_bancaires || "",
       contact_urgence: formData.contact_urgence || "",
       notes: formData.notes || "",
@@ -100,6 +107,19 @@ export function EmployeeEdit({ employee, onSave, onCancel }: EmployeeEditProps) 
     
     updateEmployeeMutation.mutate(updateData);
   };
+
+  // Si employee est undefined ou null, afficher un message d'erreur
+  if (!employee || !employee.id) {
+    return (
+      <div className="p-6 text-center">
+        <h2 className="text-xl font-bold text-destructive mb-4">Erreur: Données de l'employé non disponibles</h2>
+        <p className="mb-4">Les informations de l'employé n'ont pas pu être chargées correctement.</p>
+        <Button onClick={onCancel} variant="default">
+          Retour à la liste
+        </Button>
+      </div>
+    );
+  }
 
   if (isLoadingDepartments) {
     return (

@@ -22,7 +22,7 @@ export const employeeService = {
 
       return await response.json();
     } catch (error) {
-      console.error("Erreur:", error);
+      console.error("Erreur lors de la récupération des employés:", error);
       throw error;
     }
   },
@@ -35,6 +35,7 @@ export const employeeService = {
    */
   getById: async (token: string, id: number) => {
     try {
+      console.log(`Fetching employee with ID: ${id}`);
       const requestOptions = createAuthRequest(token);
       const response = await fetch(`${API_BASE_URL}/employer/get/${id}`, requestOptions);
 
@@ -43,9 +44,17 @@ export const employeeService = {
         throw new Error(errorData?.message || "Erreur lors de la récupération de l'employé");
       }
 
-      return await response.json();
+      const data = await response.json();
+      console.log("Employee data received from API:", data);
+      
+      // Vérifier que les données sont valides
+      if (!data || !data.id) {
+        throw new Error("Données d'employé invalides reçues de l'API");
+      }
+      
+      return data;
     } catch (error) {
-      console.error("Erreur:", error);
+      console.error(`Erreur lors de la récupération de l'employé ${id}:`, error);
       throw error;
     }
   },
@@ -59,6 +68,7 @@ export const employeeService = {
    */
   update: async (token: string, id: number, employeeData: any) => {
     try {
+      console.log(`Updating employee with ID: ${id}`, employeeData);
       const requestOptions = createAuthRequest(token, "PUT", employeeData);
       const response = await fetch(`${API_BASE_URL}/employer/update/${id}`, requestOptions);
 
@@ -67,9 +77,11 @@ export const employeeService = {
         throw new Error(errorData?.message || "Erreur lors de la mise à jour de l'employé");
       }
 
-      return await response.json();
+      const data = await response.json();
+      console.log("Update response:", data);
+      return data;
     } catch (error) {
-      console.error("Erreur:", error);
+      console.error(`Erreur lors de la mise à jour de l'employé ${id}:`, error);
       throw error;
     }
   },
@@ -82,6 +94,7 @@ export const employeeService = {
    */
   delete: async (token: string, id: number) => {
     try {
+      console.log(`Deleting employee with ID: ${id}`);
       const requestOptions = createAuthRequest(token, "DELETE");
       const response = await fetch(`${API_BASE_URL}/employer/delete/${id}`, requestOptions);
 
@@ -92,7 +105,7 @@ export const employeeService = {
 
       return await response.json();
     } catch (error) {
-      console.error("Erreur:", error);
+      console.error(`Erreur lors de la suppression de l'employé ${id}:`, error);
       throw error;
     }
   }

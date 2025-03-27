@@ -37,10 +37,18 @@ const EmployeesPage = () => {
   const fetchEmployeeDetails = async (employeeId: number) => {
     if (!token) return;
     try {
+      console.log("Fetching employee details for ID:", employeeId);
       const employee = await employeeService.getById(token, employeeId);
+      console.log("Employee details received:", employee);
+      
+      if (!employee || !employee.id) {
+        throw new Error("Données d'employé invalides");
+      }
+      
       setSelectedEmployee(employee);
       setActiveTab("details");
     } catch (error) {
+      console.error("Error fetching employee details:", error);
       toast({
         title: "Erreur",
         description: "Impossible de récupérer les détails de l'employé",
@@ -65,6 +73,7 @@ const EmployeesPage = () => {
       setSelectedEmployee(null);
     },
     onError: (error) => {
+      console.error("Error deleting employee:", error);
       toast({
         title: "Erreur",
         description: "Impossible de supprimer l'employé",
@@ -78,11 +87,20 @@ const EmployeesPage = () => {
   };
 
   const handleEditEmployee = (employeeId: number) => {
-    fetchEmployeeDetails(employeeId);
-    setActiveTab("edit");
+    fetchEmployeeDetails(employeeId).then(() => {
+      // Ajout d'un délai pour s'assurer que les données sont chargées
+      setTimeout(() => {
+        if (selectedEmployee && selectedEmployee.id === employeeId) {
+          setActiveTab("edit");
+        } else {
+          console.warn("Impossible de passer à l'édition: données employé non disponibles");
+        }
+      }, 300);
+    });
   };
 
   const handleDeleteEmployee = (employeeId: number) => {
+    // La confirmation est déjà gérée dans le composant EmployeeDetail avec AlertDialog
     deleteEmployeeMutation.mutate(employeeId);
   };
 
