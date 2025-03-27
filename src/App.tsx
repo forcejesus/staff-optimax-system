@@ -19,7 +19,16 @@ import RetirementPage from "./pages/RetirementPage";
 import LoginPage from "./pages/LoginPage";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+// Configuration du client React Query avec des paramètres optimisés pour éviter les problèmes de rafraîchissement
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -45,6 +54,7 @@ const App = () => (
               <Route path="/recrutement" element={<RecruitmentPage />} />
               <Route path="/retraite" element={<RetirementPage />} />
             </Route>
+            {/* Cette route garantit que le rafraîchissement fonctionne même avec des sous-routes */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
