@@ -17,15 +17,22 @@ export const authService = {
    */
   login: async (email: string, password: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      // Création de l'objet de requête avec tous les paramètres nécessaires
+      const requestOptions = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          // Ajout d'en-têtes pour éviter les problèmes CORS
+          "Accept": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         },
-        body: JSON.stringify({ username: email, password }),
-        // Ne pas inclure credentials: "include" à moins que l'API ne le demande spécifiquement
-        // credentials: "include"
-      });
+        body: JSON.stringify({ 
+          username: email, 
+          password 
+        })
+      };
+
+      const response = await fetch(`${API_BASE_URL}/auth/login`, requestOptions);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
