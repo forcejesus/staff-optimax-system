@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -161,7 +160,7 @@ export function EmployeeList({ employees, onView, onEdit, onDelete }: EmployeeLi
                   <TableCell>{employee.telephone}</TableCell>
                   <TableCell>{employee.nom_departement}</TableCell>
                   <TableCell>
-                    <Badge variant={employee.statut === "Actif" ? "success" : "secondary"}>
+                    <Badge variant={employee.statut === "Actif" ? "default" : "secondary"}>
                       {employee.statut}
                     </Badge>
                   </TableCell>
