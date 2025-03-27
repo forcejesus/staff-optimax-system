@@ -33,6 +33,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 // Define a type for the menu items
 interface MenuItem {
@@ -44,6 +45,7 @@ interface MenuItem {
 
 export function AppSidebar() {
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   // Définition des menus
   const mainMenuItems: MenuItem[] = [
@@ -60,6 +62,19 @@ export function AppSidebar() {
     { to: "/recrutement", icon: UserPlus, label: "Recrutement" },
     { to: "/retraite", icon: Building, label: "Retraite" },
   ];
+
+  // Récupération des initiales de l'utilisateur
+  const initials = user && user.employe 
+    ? `${user.employe.employe_nom.charAt(0)}${user.employe.employe_prenom.charAt(0)}`
+    : "UA";
+
+  // Récupération du nom complet de l'utilisateur
+  const fullName = user && user.employe 
+    ? `${user.employe.employe_prenom} ${user.employe.employe_nom}`
+    : "Utilisateur Administrateur";
+
+  // Récupération de l'email de l'utilisateur
+  const email = user?.employe?.employe_email || "admin@example.com";
 
   return (
     <Sidebar variant="sidebar" className="border-r">
@@ -144,11 +159,11 @@ export function AppSidebar() {
           <div className="flex items-center gap-3 mb-4">
             <Avatar>
               <AvatarImage src="" />
-              <AvatarFallback className="bg-primary/10 text-primary">MN</AvatarFallback>
+              <AvatarFallback className="bg-primary/10 text-primary">{initials}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="text-sm font-medium">Malonga Nkouka</span>
-              <span className="text-xs text-muted-foreground">Administrateur</span>
+              <span className="text-sm font-medium">{fullName}</span>
+              <span className="text-xs text-muted-foreground">{email}</span>
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -156,7 +171,12 @@ export function AppSidebar() {
               <Settings className="mr-2 h-4 w-4" />
               Paramètres
             </Button>
-            <Button variant="outline" size="sm" className="justify-start text-destructive hover:text-destructive hover:bg-destructive/10">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
+              onClick={logout}
+            >
               <LogOut className="mr-2 h-4 w-4" />
               Déconnexion
             </Button>

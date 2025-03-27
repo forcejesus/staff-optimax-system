@@ -22,7 +22,7 @@ export function Header() {
     : "U";
 
   const fullName = user && user.employe 
-    ? `${user.employe.employe_nom} ${user.employe.employe_prenom}`
+    ? `${user.employe.employe_prenom} ${user.employe.employe_nom}`
     : "Utilisateur";
 
   return (

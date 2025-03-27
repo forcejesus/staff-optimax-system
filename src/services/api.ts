@@ -1,10 +1,10 @@
 
-
 /**
  * Services API centralisés pour l'application
  */
 
-const API_BASE_URL = "https://sgd-it.net/api";
+// const API_BASE_URL = "https://www.sgd-it.net/api";
+const API_BASE_URL = "http://127.0.0.1:8000/api";
 
 /**
  * Service d'authentification
@@ -23,12 +23,11 @@ export const authService = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Ajout d'en-têtes pour éviter les problèmes CORS
           "Accept": "application/json",
           "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({ 
-          email, 
+          email,  // ✅ Correction ici
           password 
         })
       };
@@ -37,7 +36,8 @@ export const authService = {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.detail || "Identifiants invalides");
+        const errorMessage = errorData?.detail || errorData?.message || "Identifiants invalides";
+        throw new Error(errorMessage);
       }
 
       return await response.json();
@@ -68,4 +68,3 @@ export const leaveService = {
 export const attendanceService = {
   // Futures méthodes pour la gestion des présences
 };
-

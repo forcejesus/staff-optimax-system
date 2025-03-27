@@ -43,7 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Check for token on mount
   useEffect(() => {
-    const checkAuth = () => {
+    const checkAuth = async () => {
       const token = localStorage.getItem("authToken");
       
       if (!token) {
@@ -121,7 +121,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       setUser(decoded);
       setIsAuthenticated(true);
-      navigate("/");
+      
+      // Ajouter un léger délai pour éviter un rendu trop brusque du dashboard
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate("/");
+      }, 500);
+      
       return true;
     } catch (error) {
       console.error("Login error:", error);
