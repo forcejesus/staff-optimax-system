@@ -20,14 +20,17 @@ const EmployeesPage = () => {
   const [activeTab, setActiveTab] = useState("list");
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const { toast } = useToast();
-  const { token } = useAuth();
+  const { token, isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
   
   // Récupérer la liste des employés
   const { data: employees = [], isLoading: isLoadingEmployees } = useQuery({
     queryKey: ["employees"],
-    queryFn: () => employeeService.getAll(token as string),
-    enabled: !!token,
+    queryFn: () => {
+      if (!token) throw new Error("Token manquant");
+      return employeeService.getAll(token);
+    },
+    enabled: !!token && isAuthenticated,
   });
 
   // Récupérer les détails d'un employé
@@ -48,7 +51,10 @@ const EmployeesPage = () => {
 
   // Mutation pour supprimer un employé
   const deleteEmployeeMutation = useMutation({
-    mutationFn: (employeeId: number) => employeeService.delete(token as string, employeeId),
+    mutationFn: (employeeId: number) => {
+      if (!token) throw new Error("Token manquant");
+      return employeeService.delete(token, employeeId);
+    },
     onSuccess: () => {
       toast({
         title: "Employé supprimé",
@@ -91,7 +97,7 @@ const EmployeesPage = () => {
     setActiveTab("list");
   };
 
-  if (!token) {
+  if (!isAuthenticated) {
     return (
       <div className="flex flex-col space-y-8">
         <h1 className="text-2xl font-bold text-primary">Accès non autorisé</h1>

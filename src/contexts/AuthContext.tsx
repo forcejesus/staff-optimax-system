@@ -31,6 +31,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
+  token: string | null; // Ajout de la propriété token
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -39,26 +40,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<JwtPayload | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [token, setToken] = useState<string | null>(null); // État pour stocker le token
   const navigate = useNavigate();
 
   // Check for token on mount
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("authToken");
+      const storedToken = localStorage.getItem("authToken");
       
-      if (!token) {
+      if (!storedToken) {
         setIsLoading(false);
         return;
       }
       
       try {
-        const decoded = jwtDecode<JwtPayload>(token);
+        const decoded = jwtDecode<JwtPayload>(storedToken);
         
         // Check if token is expired
         if (decoded.exp * 1000 < Date.now()) {
           localStorage.removeItem("authToken");
           setIsAuthenticated(false);
           setUser(null);
+          setToken(null);
           setIsLoading(false);
           return;
         }
@@ -68,16 +71,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           localStorage.removeItem("authToken");
           setIsAuthenticated(false);
           setUser(null);
+          setToken(null);
           setIsLoading(false);
           return;
         }
         
         setUser(decoded);
+        setToken(storedToken);
         setIsAuthenticated(true);
       } catch (error) {
         localStorage.removeItem("authToken");
         setIsAuthenticated(false);
         setUser(null);
+        setToken(null);
         console.error("Invalid token:", error);
       }
       
@@ -95,9 +101,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.log("Réponse d'authentification:", data);
       
       // Vérifiez la structure exacte renvoyée par votre API Django
-      const token = data.access_token || data.token;
+      const authToken = data.access_token || data.token;
       
-      if (!token) {
+      if (!authToken) {
         console.error("Token introuvable dans la réponse:", data);
         toast.error("Format de réponse invalide. Contactez l'administrateur.");
         setIsLoading(false);
@@ -105,10 +111,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       
       // Store token in localStorage
-      localStorage.setItem("authToken", token);
+      localStorage.setItem("authToken", authToken);
       
       // Decode token
-      const decoded = jwtDecode<JwtPayload>(token);
+      const decoded = jwtDecode<JwtPayload>(authToken);
       console.log("Données décodées:", decoded);
       
       // Check if user is admin
@@ -120,13 +126,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       
       setUser(decoded);
+      setToken(authToken);
       setIsAuthenticated(true);
       
       // Ajouter un léger délai pour éviter un rendu trop brusque du dashboard
       setTimeout(() => {
         setIsLoading(false);
         navigate("/");
-      }, 500);
+      }, 300); // Réduit à 300ms pour accélérer la transition
       
       return true;
     } catch (error) {
@@ -141,11 +148,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("authToken");
     setIsAuthenticated(false);
     setUser(null);
+    setToken(null);
     navigate("/connexion");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, isLoading, token }}>
       {children}
     </AuthContext.Provider>
   );
