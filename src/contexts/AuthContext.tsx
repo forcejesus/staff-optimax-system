@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -91,13 +92,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     try {
       const data = await authService.login(email, password);
-      const token = data.access_token;
+      console.log("Réponse d'authentification:", data);
+      
+      // Vérifiez la structure exacte renvoyée par votre API Django
+      const token = data.access_token || data.token;
+      
+      if (!token) {
+        console.error("Token introuvable dans la réponse:", data);
+        toast.error("Format de réponse invalide. Contactez l'administrateur.");
+        setIsLoading(false);
+        return false;
+      }
       
       // Store token in localStorage
       localStorage.setItem("authToken", token);
       
       // Decode token
       const decoded = jwtDecode<JwtPayload>(token);
+      console.log("Données décodées:", decoded);
       
       // Check if user is admin
       if (!decoded.is_staff || !decoded.is_superuser) {

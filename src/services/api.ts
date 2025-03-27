@@ -1,4 +1,5 @@
 
+
 /**
  * Services API centralisés pour l'application
  */
@@ -27,7 +28,7 @@ export const authService = {
           "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({ 
-          username: email, 
+          email, 
           password 
         })
       };
@@ -67,3 +68,4 @@ export const leaveService = {
 export const attendanceService = {
   // Futures méthodes pour la gestion des présences
 };
+
