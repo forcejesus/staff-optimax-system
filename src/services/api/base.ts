@@ -3,7 +3,7 @@
  * Base API service with common utilities
  */
 
-export const API_BASE_URL = "http://127.0.0.1:8000/api";
+export const API_BASE_URL = "https://www.sgd-it.net/api";
 
 /**
  * Fonction utilitaire pour créer des requêtes avec authentification
