@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Edit, ArrowLeft, Trash } from "lucide-react";
+import { Edit, ArrowLeft, Trash, Phone, Mail, MapPin, Cake, Briefcase, User, Building, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   AlertDialog,
@@ -16,20 +16,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-
-interface Employee {
-  id: number;
-  name: string;
-  email: string;
-  department: string;
-  position: string;
-  status: string;
-}
+import { Employee } from "@/types/employee";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 interface EmployeeDetailProps {
   employee: Employee;
-  onEdit: (id: number) => void;
-  onDelete: (id: number) => void;
+  onEdit: () => void;
+  onDelete: () => void;
   onBack: () => void;
 }
 
@@ -37,8 +31,16 @@ export function EmployeeDetail({ employee, onEdit, onDelete, onBack }: EmployeeD
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  const formatDate = (dateString: string) => {
+    try {
+      return format(new Date(dateString), 'dd MMMM yyyy', { locale: fr });
+    } catch (error) {
+      return 'Date invalide';
+    }
+  };
+
   const handleDelete = () => {
-    onDelete(employee.id);
+    onDelete();
     toast({
       title: "Employé supprimé",
       description: "L'employé a été supprimé avec succès",
@@ -55,7 +57,7 @@ export function EmployeeDetail({ employee, onEdit, onDelete, onBack }: EmployeeD
             Retour
           </Button>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => onEdit(employee.id)}>
+            <Button variant="outline" onClick={onEdit}>
               <Edit className="mr-2 h-4 w-4" />
               Modifier
             </Button>
@@ -81,7 +83,7 @@ export function EmployeeDetail({ employee, onEdit, onDelete, onBack }: EmployeeD
             </AlertDialog>
           </div>
         </div>
-        <CardTitle className="text-2xl">{employee.name}</CardTitle>
+        <CardTitle className="text-2xl">{employee.prenom} {employee.nom}</CardTitle>
         <div className="text-muted-foreground">{employee.email}</div>
       </CardHeader>
       <CardContent>
@@ -89,57 +91,131 @@ export function EmployeeDetail({ employee, onEdit, onDelete, onBack }: EmployeeD
           <div className="space-y-4">
             <section className="space-y-2">
               <h3 className="text-lg font-medium">Informations professionnelles</h3>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div className="font-medium">Département</div>
-                <div>{employee.department}</div>
-                <div className="font-medium">Poste</div>
-                <div>{employee.position}</div>
-                <div className="font-medium">Statut</div>
-                <div>
-                  <Badge variant={employee.status === "Actif" ? "default" : "outline"}>
-                    {employee.status}
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <Building className="h-4 w-4 mt-1 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Département</div>
+                    <div>{employee.nom_departement}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Briefcase className="h-4 w-4 mt-1 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Poste</div>
+                    <div>{employee.titre_poste}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <User className="h-4 w-4 mt-1 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Manager</div>
+                    <div>{employee.nom_manager || "Non assigné"}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Badge variant={employee.statut === "Actif" ? "default" : "outline"} className="mt-1">
+                    {employee.statut}
                   </Badge>
+                  <div>
+                    <div className="font-medium">Type de contrat</div>
+                    <div>{employee.type_contrat}</div>
+                  </div>
                 </div>
               </div>
             </section>
             
             <section className="space-y-2">
               <h3 className="text-lg font-medium">Coordonnées</h3>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div className="font-medium">Email</div>
-                <div>{employee.email}</div>
-                <div className="font-medium">Téléphone</div>
-                <div>+221 XX XXX XX XX</div>
-                <div className="font-medium">Adresse</div>
-                <div>Non renseignée</div>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <Mail className="h-4 w-4 mt-1 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Email</div>
+                    <div>{employee.email}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Phone className="h-4 w-4 mt-1 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Téléphone</div>
+                    <div>{employee.telephone || "Non renseigné"}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <MapPin className="h-4 w-4 mt-1 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Adresse</div>
+                    <div>{employee.adresse || "Non renseignée"}</div>
+                  </div>
+                </div>
               </div>
             </section>
           </div>
           
           <div className="space-y-4">
             <section className="space-y-2">
-              <h3 className="text-lg font-medium">Contrat et rémunération</h3>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div className="font-medium">Type de contrat</div>
-                <div>CDI</div>
-                <div className="font-medium">Date d'embauche</div>
-                <div>01/01/2022</div>
-                <div className="font-medium">Salaire</div>
-                <div>Confidentiel</div>
+              <h3 className="text-lg font-medium">Informations personnelles</h3>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <Cake className="h-4 w-4 mt-1 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Date de naissance</div>
+                    <div>{employee.date_naissance ? formatDate(employee.date_naissance) : "Non renseignée"}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <User className="h-4 w-4 mt-1 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Nationalité</div>
+                    <div>{employee.nationalite || "Non renseignée"}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <User className="h-4 w-4 mt-1 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Genre</div>
+                    <div>{employee.genre || "Non renseigné"}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Calendar className="h-4 w-4 mt-1 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Date d'embauche</div>
+                    <div>{employee.date_embauche ? formatDate(employee.date_embauche) : "Non renseignée"}</div>
+                  </div>
+                </div>
               </div>
             </section>
             
             <section className="space-y-2">
-              <h3 className="text-lg font-medium">Congés et absences</h3>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div className="font-medium">Jours de congés restants</div>
-                <div>24 jours</div>
-                <div className="font-medium">Prochain congé prévu</div>
-                <div>Aucun</div>
+              <h3 className="text-lg font-medium">Informations complémentaires</h3>
+              <div className="space-y-2">
+                <div>
+                  <div className="font-medium">Numéro de sécurité sociale</div>
+                  <div>{employee.numero_securite_sociale || "Non renseigné"}</div>
+                </div>
+                <div>
+                  <div className="font-medium">Contact d'urgence</div>
+                  <div>{employee.contact_urgence || "Non renseigné"}</div>
+                </div>
+                <div>
+                  <div className="font-medium">Lieu de travail</div>
+                  <div>{employee.lieu_travail || "Non renseigné"}</div>
+                </div>
               </div>
             </section>
           </div>
         </div>
+        
+        {employee.notes && (
+          <div className="mt-6">
+            <h3 className="text-lg font-medium mb-2">Notes</h3>
+            <div className="p-4 bg-muted/40 rounded-md">
+              {employee.notes}
+            </div>
+          </div>
+        )}
       </CardContent>
       <CardFooter className="border-t pt-6 flex flex-col items-start">
         <h3 className="text-lg font-medium mb-4">Documents</h3>

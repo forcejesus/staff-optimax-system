@@ -10,96 +10,95 @@ import { EmployeeEdit } from "@/components/employees/EmployeeEdit";
 import { EmployeeDocuments } from "@/components/employees/EmployeeDocuments";
 import { EmployeeAdvancements } from "@/components/employees/EmployeeAdvancements";
 import { useToast } from "@/hooks/use-toast";
-
-// Données fictives pour les employés avec des noms africains
-const employees = [
-  {
-    id: 1,
-    name: "Kofi Annan",
-    email: "kofi.annan@example.com",
-    department: "Ressources Humaines",
-    position: "Responsable RH",
-    status: "Actif",
-  },
-  {
-    id: 2,
-    name: "Fatou Diallo",
-    email: "fatou.diallo@example.com",
-    department: "Marketing",
-    position: "Chef de Projet",
-    status: "Actif",
-  },
-  {
-    id: 3,
-    name: "Amadou Diop",
-    email: "amadou.diop@example.com",
-    department: "Développement",
-    position: "Développeur Front-end",
-    status: "Actif",
-  },
-  {
-    id: 4,
-    name: "Aminata Touré",
-    email: "aminata.toure@example.com",
-    department: "Comptabilité",
-    position: "Comptable",
-    status: "En congé",
-  },
-  {
-    id: 5,
-    name: "Mamadou Sow",
-    email: "mamadou.sow@example.com",
-    department: "Commercial",
-    position: "Responsable Commercial",
-    status: "Actif",
-  },
-];
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { employeeService } from "@/services/api";
+import { useAuth } from "@/contexts/AuthContext";
+import { Employee } from "@/types/employee";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const EmployeesPage = () => {
   const [activeTab, setActiveTab] = useState("list");
-  const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
-  const [employeesList, setEmployeesList] = useState(employees);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const { toast } = useToast();
+  const { token } = useAuth();
+  const queryClient = useQueryClient();
+  
+  // Récupérer la liste des employés
+  const { data: employees = [], isLoading: isLoadingEmployees } = useQuery({
+    queryKey: ["employees"],
+    queryFn: () => employeeService.getAll(token as string),
+    enabled: !!token,
+  });
 
-  const handleViewEmployee = (employeeId: number) => {
-    const employee = employeesList.find(emp => emp.id === employeeId);
-    if (employee) {
+  // Récupérer les détails d'un employé
+  const fetchEmployeeDetails = async (employeeId: number) => {
+    if (!token) return;
+    try {
+      const employee = await employeeService.getById(token, employeeId);
       setSelectedEmployee(employee);
       setActiveTab("details");
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Impossible de récupérer les détails de l'employé",
+        variant: "destructive",
+      });
     }
+  };
+
+  // Mutation pour supprimer un employé
+  const deleteEmployeeMutation = useMutation({
+    mutationFn: (employeeId: number) => employeeService.delete(token as string, employeeId),
+    onSuccess: () => {
+      toast({
+        title: "Employé supprimé",
+        description: "L'employé a été supprimé avec succès",
+      });
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
+      setActiveTab("list");
+      setSelectedEmployee(null);
+    },
+    onError: (error) => {
+      toast({
+        title: "Erreur",
+        description: "Impossible de supprimer l'employé",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleViewEmployee = (employeeId: number) => {
+    fetchEmployeeDetails(employeeId);
   };
 
   const handleEditEmployee = (employeeId: number) => {
-    const employee = employeesList.find(emp => emp.id === employeeId);
-    if (employee) {
-      setSelectedEmployee(employee);
-      setActiveTab("edit");
-    }
+    fetchEmployeeDetails(employeeId);
+    setActiveTab("edit");
   };
 
   const handleDeleteEmployee = (employeeId: number) => {
-    setEmployeesList(prevEmployees => prevEmployees.filter(emp => emp.id !== employeeId));
-    toast({
-      title: "Employé supprimé",
-      description: "L'employé a été supprimé avec succès",
-    });
-    setActiveTab("list");
+    deleteEmployeeMutation.mutate(employeeId);
   };
 
-  const handleSaveEmployee = (updatedEmployee: any) => {
-    setEmployeesList(prevEmployees => 
-      prevEmployees.map(emp => 
-        emp.id === updatedEmployee.id ? updatedEmployee : emp
-      )
-    );
+  const handleSaveEmployee = (updatedEmployee: Employee) => {
     setSelectedEmployee(updatedEmployee);
     setActiveTab("details");
+    queryClient.invalidateQueries({ queryKey: ["employees"] });
   };
 
   const handleBackToList = () => {
     setSelectedEmployee(null);
     setActiveTab("list");
   };
+
+  if (!token) {
+    return (
+      <div className="flex flex-col space-y-8">
+        <h1 className="text-2xl font-bold text-primary">Accès non autorisé</h1>
+        <p>Veuillez vous connecter pour accéder à cette page.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col space-y-8">
@@ -122,50 +121,65 @@ const EmployeesPage = () => {
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4 mb-8">
-          <TabsTrigger value="list">Liste des employés</TabsTrigger>
-          <TabsTrigger value="add">Ajouter un employé</TabsTrigger>
-          <TabsTrigger value="documents">Documents</TabsTrigger>
-          <TabsTrigger value="advancements">Avancements</TabsTrigger>
-        </TabsList>
-        <TabsContent value="list">
-          <EmployeeList 
-            employees={employeesList} 
-            onView={handleViewEmployee} 
-            onEdit={handleEditEmployee} 
-            onDelete={handleDeleteEmployee} 
-          />
-        </TabsContent>
-        <TabsContent value="details">
-          {selectedEmployee && (
-            <EmployeeDetail 
-              employee={selectedEmployee} 
+      {isLoadingEmployees ? (
+        <div className="space-y-4">
+          <Skeleton className="h-8 w-full max-w-sm" />
+          <Skeleton className="h-96 w-full" />
+        </div>
+      ) : (
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-4 mb-8">
+            <TabsTrigger value="list">Liste des employés</TabsTrigger>
+            <TabsTrigger value="add">Ajouter un employé</TabsTrigger>
+            <TabsTrigger value="documents">Documents</TabsTrigger>
+            <TabsTrigger value="advancements">Avancements</TabsTrigger>
+          </TabsList>
+          <TabsContent value="list">
+            <EmployeeList 
+              employees={employees} 
+              onView={handleViewEmployee} 
               onEdit={handleEditEmployee} 
               onDelete={handleDeleteEmployee} 
-              onBack={handleBackToList} 
             />
-          )}
-        </TabsContent>
-        <TabsContent value="edit">
-          {selectedEmployee && (
-            <EmployeeEdit 
-              employee={selectedEmployee} 
-              onSave={handleSaveEmployee} 
-              onCancel={handleBackToList} 
-            />
-          )}
-        </TabsContent>
-        <TabsContent value="add">
-          <EmployeeForm />
-        </TabsContent>
-        <TabsContent value="documents">
-          <EmployeeDocuments />
-        </TabsContent>
-        <TabsContent value="advancements">
-          <EmployeeAdvancements />
-        </TabsContent>
-      </Tabs>
+          </TabsContent>
+          <TabsContent value="details">
+            {selectedEmployee ? (
+              <EmployeeDetail 
+                employee={selectedEmployee} 
+                onEdit={() => handleEditEmployee(selectedEmployee.id)} 
+                onDelete={() => handleDeleteEmployee(selectedEmployee.id)} 
+                onBack={handleBackToList} 
+              />
+            ) : (
+              <div className="text-center py-10">
+                <p>Veuillez sélectionner un employé pour voir les détails.</p>
+              </div>
+            )}
+          </TabsContent>
+          <TabsContent value="edit">
+            {selectedEmployee ? (
+              <EmployeeEdit 
+                employee={selectedEmployee} 
+                onSave={handleSaveEmployee} 
+                onCancel={handleBackToList} 
+              />
+            ) : (
+              <div className="text-center py-10">
+                <p>Veuillez sélectionner un employé pour modifier.</p>
+              </div>
+            )}
+          </TabsContent>
+          <TabsContent value="add">
+            <EmployeeForm />
+          </TabsContent>
+          <TabsContent value="documents">
+            <EmployeeDocuments />
+          </TabsContent>
+          <TabsContent value="advancements">
+            <EmployeeAdvancements />
+          </TabsContent>
+        </Tabs>
+      )}
     </div>
   );
 };
