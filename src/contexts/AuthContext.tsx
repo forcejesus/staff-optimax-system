@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { authService } from "@/services/api";
 
 // Define the employee type based on JWT payload
 interface Employee {
@@ -89,19 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     
     try {
-      const response = await fetch("https://sgd-it.net/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: email, password }),
-      });
-      
-      if (!response.ok) {
-        throw new Error("Identifiants invalides");
-      }
-      
-      const data = await response.json();
+      const data = await authService.login(email, password);
       const token = data.access_token;
       
       // Store token in localStorage
