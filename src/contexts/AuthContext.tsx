@@ -1,8 +1,7 @@
-
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 // Define the employee type based on JWT payload
 interface Employee {
