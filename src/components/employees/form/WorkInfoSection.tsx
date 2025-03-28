@@ -22,6 +22,12 @@ export function WorkInfoSection({
   handleSelectChange 
 }: WorkInfoSectionProps) {
   const { token } = useAuth();
+  
+  console.log("Work info section form data:", formData);
+
+  // Convert potentially null values to empty strings for the Select components
+  const departmentIdValue = formData.departement_id ? formData.departement_id.toString() : "";
+  const posteIdValue = formData.poste_id ? formData.poste_id.toString() : "";
 
   // Récupérer la liste des postes
   const { 
@@ -42,7 +48,7 @@ export function WorkInfoSection({
         <Label htmlFor="departement_id">Département</Label>
         <Select 
           name="departement_id" 
-          value={formData.departement_id?.toString() || ""} 
+          value={departmentIdValue} 
           onValueChange={(value) => handleSelectChange("departement_id", value)}
         >
           <SelectTrigger>
@@ -66,7 +72,7 @@ export function WorkInfoSection({
         ) : (
           <Select 
             name="poste_id" 
-            value={formData.poste_id?.toString() || ""} 
+            value={posteIdValue} 
             onValueChange={(value) => handleSelectChange("poste_id", value)}
           >
             <SelectTrigger>

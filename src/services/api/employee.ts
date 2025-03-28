@@ -1,4 +1,3 @@
-
 import { API_BASE_URL, createAuthRequest } from './base';
 
 /**
@@ -70,24 +69,22 @@ export const employeeService = {
     try {
       console.log(`Updating employee with ID: ${id}`, employeeData);
       
-      // Nettoyer les valeurs nulles ou vides pour les champs numériques
-      if (employeeData.departement_id === null || employeeData.departement_id === "") {
-        employeeData.departement_id = null;
-      }
+      // Create a clean payload without undefined values
+      const cleanPayload = Object.fromEntries(
+        Object.entries(employeeData).map(([key, value]) => {
+          // Explicitly handle null values to make sure they're sent as null and not converted to empty strings
+          return [key, value === null ? null : value];
+        })
+      );
       
-      if (employeeData.poste_id === null || employeeData.poste_id === "") {
-        employeeData.poste_id = null;
-      }
+      console.log("Clean payload for update:", cleanPayload);
       
-      if (employeeData.manager_id === null || employeeData.manager_id === "") {
-        employeeData.manager_id = null;
-      }
-      
-      const requestOptions = createAuthRequest(token, "PUT", employeeData);
+      const requestOptions = createAuthRequest(token, "PUT", cleanPayload);
       const response = await fetch(`${API_BASE_URL}/employer/update/${id}`, requestOptions);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
+        console.error("API error response:", errorData);
         throw new Error(errorData?.message || "Erreur lors de la mise à jour de l'employé");
       }
 
