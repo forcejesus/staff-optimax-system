@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { EmployeeSearch } from "./list/EmployeeSearch";
 import { DepartmentFilter } from "./list/DepartmentFilter";
 import { EmployeeTable } from "./list/EmployeeTable";
+import { EmployeeStats } from "./list/EmployeeStats";
 
 interface EmployeeListProps {
   employees: Employee[];
@@ -64,6 +65,12 @@ export function EmployeeList({ employees, onView, onEdit, onDelete }: EmployeeLi
 
   return (
     <div className="space-y-4">
+      {/* Statistiques des employés */}
+      <EmployeeStats 
+        employees={employees} 
+        departments={departments} 
+      />
+      
       <div className="flex flex-col sm:flex-row gap-4">
         <EmployeeSearch 
           searchTerm={searchTerm} 

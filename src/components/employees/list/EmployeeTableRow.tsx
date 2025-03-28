@@ -2,13 +2,7 @@
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu";
+import { Eye } from "lucide-react";
 import { Employee } from "@/types/employee";
 
 interface EmployeeTableRowProps {
@@ -19,42 +13,41 @@ interface EmployeeTableRowProps {
 }
 
 export function EmployeeTableRow({ employee, onView, onEdit, onDelete }: EmployeeTableRowProps) {
+  const handleRowClick = () => {
+    onView(employee.id);
+  };
+
   return (
-    <TableRow key={employee.id}>
+    <TableRow 
+      key={employee.id} 
+      onClick={handleRowClick}
+      className="cursor-pointer hover:bg-muted/80"
+    >
       <TableCell className="font-medium">
         {employee.prenom} {employee.nom}
       </TableCell>
       <TableCell>{employee.email}</TableCell>
       <TableCell>{employee.telephone}</TableCell>
       <TableCell>{employee.nom_departement}</TableCell>
+      <TableCell>{employee.titre_poste || "Non défini"}</TableCell>
       <TableCell>
         <Badge variant={employee.statut === "Actif" ? "default" : "secondary"}>
           {employee.statut}
         </Badge>
       </TableCell>
       <TableCell className="text-right">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => onView(employee.id)}>
-              Voir les détails
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onEdit(employee.id)}>
-              Modifier
-            </DropdownMenuItem>
-            <DropdownMenuItem 
-              onClick={() => onDelete(employee.id)}
-              className="text-destructive focus:text-destructive"
-            >
-              Supprimer
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={(e) => {
+            e.stopPropagation();
+            onView(employee.id);
+          }}
+          title="Voir les détails"
+        >
+          <Eye className="h-4 w-4" />
+          <span className="sr-only">Voir les détails</span>
+        </Button>
       </TableCell>
     </TableRow>
   );

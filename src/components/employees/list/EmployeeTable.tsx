@@ -37,6 +37,7 @@ export function EmployeeTable({
             <TableHead>Email</TableHead>
             <TableHead>Téléphone</TableHead>
             <TableHead>Département</TableHead>
+            <TableHead>Poste</TableHead>
             <TableHead>Statut</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
@@ -44,7 +45,7 @@ export function EmployeeTable({
         <TableBody>
           {employees.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={6} className="text-center">
+              <TableCell colSpan={7} className="text-center">
                 <EmptyState 
                   hasSearchTerm={!!searchTerm} 
                   onClearSearch={onClearSearch} 

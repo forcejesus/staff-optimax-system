@@ -12,7 +12,8 @@ import {
   LogOut,
   Settings,
   Building,
-  BarChart3
+  BarChart3,
+  ChevronRight
 } from "lucide-react";
 
 import {
@@ -26,12 +27,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuBadge,
   SidebarSeparator
 } from "@/components/ui/sidebar";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -40,7 +39,6 @@ interface MenuItem {
   to: string;
   icon: React.ComponentType<{ className?: string }>;
   label: string;
-  badge?: string;
 }
 
 export function AppSidebar() {
@@ -50,8 +48,8 @@ export function AppSidebar() {
   // Définition des menus
   const mainMenuItems: MenuItem[] = [
     { to: "/", icon: LayoutDashboard, label: "Tableau de bord" },
-    { to: "/employes", icon: Users, label: "Employés", badge: "42" },
-    { to: "/conges", icon: Calendar, label: "Congés", badge: "8" },
+    { to: "/employes", icon: Users, label: "Employés" },
+    { to: "/conges", icon: Calendar, label: "Congés" },
     { to: "/presences", icon: Clock, label: "Présences" },
     { to: "/paie", icon: FileText, label: "Paie" },
   ];
@@ -101,18 +99,12 @@ export function AppSidebar() {
                     asChild
                     isActive={location.pathname === item.to}
                     tooltip={item.label}
+                    className="group"
                   >
-                    <NavLink to={item.to}>
+                    <NavLink to={item.to} className="relative">
                       <item.icon className="w-4 h-4" />
                       <span>{item.label}</span>
-                      {item.badge && (
-                        <Badge 
-                          variant="outline" 
-                          className="ml-auto text-xs bg-primary/10 hover:bg-primary/20"
-                        >
-                          {item.badge}
-                        </Badge>
-                      )}
+                      <ChevronRight className="ml-auto h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -124,7 +116,7 @@ export function AppSidebar() {
         <SidebarSeparator />
 
         <SidebarGroup>
-          <SidebarGroupLabel>Modules avancés</SidebarGroupLabel>
+          <SidebarGroupLabel>Autres fonctionnalités</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {secondaryMenuItems.map((item) => (
@@ -133,18 +125,12 @@ export function AppSidebar() {
                     asChild
                     isActive={location.pathname === item.to}
                     tooltip={item.label}
+                    className="group"
                   >
-                    <NavLink to={item.to}>
+                    <NavLink to={item.to} className="relative">
                       <item.icon className="w-4 h-4" />
                       <span>{item.label}</span>
-                      {item.badge && (
-                        <Badge 
-                          variant={item.badge === "Nouveau" ? "default" : "outline"}
-                          className={`ml-auto text-xs ${item.badge === "Nouveau" ? "bg-primary text-primary-foreground" : "bg-primary/10 hover:bg-primary/20"}`}
-                        >
-                          {item.badge}
-                        </Badge>
-                      )}
+                      <ChevronRight className="ml-auto h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
