@@ -5,6 +5,12 @@ export interface Department {
   description: string;
 }
 
+export interface Position {
+  id: number;
+  titre: string;
+  description: string;
+}
+
 export interface Employee {
   id: number;
   prenom: string;

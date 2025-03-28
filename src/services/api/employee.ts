@@ -69,6 +69,20 @@ export const employeeService = {
   update: async (token: string, id: number, employeeData: any) => {
     try {
       console.log(`Updating employee with ID: ${id}`, employeeData);
+      
+      // Nettoyer les valeurs nulles ou vides pour les champs numériques
+      if (employeeData.departement_id === null || employeeData.departement_id === "") {
+        employeeData.departement_id = null;
+      }
+      
+      if (employeeData.poste_id === null || employeeData.poste_id === "") {
+        employeeData.poste_id = null;
+      }
+      
+      if (employeeData.manager_id === null || employeeData.manager_id === "") {
+        employeeData.manager_id = null;
+      }
+      
       const requestOptions = createAuthRequest(token, "PUT", employeeData);
       const response = await fetch(`${API_BASE_URL}/employer/update/${id}`, requestOptions);
 
