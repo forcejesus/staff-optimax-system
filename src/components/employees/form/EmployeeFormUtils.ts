@@ -3,13 +3,13 @@ import { Employee } from "@/types/employee";
 
 export const prepareEmployeeUpdateData = (formData: any) => {
   // Convert empty strings to null for ID fields
-  const departementId = formData.departement_id === "" ? null : 
+  const departementId = formData.departement_id === "" || formData.departement_id === "null" ? null : 
     formData.departement_id ? Number(formData.departement_id) : null;
   
-  const posteId = formData.poste_id === "" ? null :
+  const posteId = formData.poste_id === "" || formData.poste_id === "null" ? null :
     formData.poste_id ? Number(formData.poste_id) : null;
   
-  const managerId = formData.manager_id === "" ? null :
+  const managerId = formData.manager_id === "" || formData.manager_id === "null" ? null :
     formData.manager_id ? Number(formData.manager_id) : null;
 
   return {
@@ -24,7 +24,7 @@ export const prepareEmployeeUpdateData = (formData: any) => {
     poste_id: posteId,
     manager_id: managerId,
     lieu_travail: formData.lieu_travail || "",
-    type_contrat: formData.type_contrat || "",
+    type_contrat: formData.type_contrat === "none" ? null : formData.type_contrat || "",
     statut: formData.statut || "Actif",
     numero_securite_sociale: formData.numero_securite_sociale || "",
     informations_bancaires: formData.informations_bancaires || "",

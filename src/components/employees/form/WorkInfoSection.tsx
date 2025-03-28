@@ -55,7 +55,7 @@ export function WorkInfoSection({
             <SelectValue placeholder="Sélectionner un département" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Aucun département</SelectItem>
+            <SelectItem value="null">Aucun département</SelectItem>
             {departments.map((dept: Department) => (
               <SelectItem key={dept.id} value={dept.id.toString()}>
                 {dept.nom}
@@ -79,7 +79,7 @@ export function WorkInfoSection({
               <SelectValue placeholder="Sélectionner un poste" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Aucun poste</SelectItem>
+              <SelectItem value="null">Aucun poste</SelectItem>
               {positions.map((position: Position) => (
                 <SelectItem key={position.id} value={position.id.toString()}>
                   {position.titre}
@@ -111,7 +111,7 @@ export function WorkInfoSection({
             <SelectValue placeholder="Sélectionner un type de contrat" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Aucun type</SelectItem>
+            <SelectItem value="none">Aucun type</SelectItem>
             <SelectItem value="CDI">CDI</SelectItem>
             <SelectItem value="CDD">CDD</SelectItem>
             <SelectItem value="Intérim">Intérim</SelectItem>
