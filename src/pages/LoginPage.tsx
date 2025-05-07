@@ -7,13 +7,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { LogIn, User, Key, Eye, EyeOff, Shield, Clock, Check, Calendar } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ForgotPasswordDialog } from "@/components/auth/ForgotPasswordDialog";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState("");
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const { login, isLoading, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -68,7 +69,7 @@ const LoginPage = () => {
       </div>
       
       <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
-        {/* Left column: Branding & Features */}
+        {/* Left column: Features */}
         <div className="space-y-8 p-6 hidden lg:block">
           {/* Brand */}
           <div className="space-y-4">
@@ -76,8 +77,7 @@ const LoginPage = () => {
               <span className="font-bold text-3xl text-white">GRH</span>
             </div>
             <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
-              Bienvenue sur
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"> GRH++</span>
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">GRH++</span>
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-md">
               La plateforme de gestion RH moderne pour les entreprises qui valorisent leurs talents.
@@ -101,12 +101,6 @@ const LoginPage = () => {
                 <p className="text-sm text-gray-500 dark:text-gray-400">{feature.desc}</p>
               </div>
             ))}
-          </div>
-          
-          {/* Image */}
-          <div className="relative mt-8 h-64 overflow-hidden rounded-2xl shadow-xl">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 mix-blend-overlay rounded-2xl z-10"></div>
-            <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1470')] bg-cover bg-center rounded-2xl transform transition-transform duration-10000 hover:scale-110"></div>
           </div>
         </div>
         
@@ -162,9 +156,13 @@ const LoginPage = () => {
                     <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       Mot de passe
                     </Label>
-                    <a href="#" className="text-xs text-blue-600 hover:underline dark:text-blue-400">
+                    <button 
+                      type="button"
+                      onClick={() => setForgotPasswordOpen(true)} 
+                      className="text-xs text-blue-600 hover:underline dark:text-blue-400"
+                    >
                       Mot de passe oublié?
-                    </a>
+                    </button>
                   </div>
                   <div className="relative">
                     <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -243,6 +241,12 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Forgot Password Dialog */}
+      <ForgotPasswordDialog 
+        isOpen={forgotPasswordOpen}
+        onClose={() => setForgotPasswordOpen(false)}
+      />
     </div>
   );
 };
