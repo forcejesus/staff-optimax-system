@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { Employee, Department } from "@/types/employee";
-import { employeeService, departmentService } from "@/services/api";
+import { departmentService } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BasicInfoSection } from "./form/BasicInfoSection";
 import { WorkInfoSection } from "./form/WorkInfoSection";
@@ -15,6 +15,7 @@ import { AdditionalInfoSection } from "./form/AdditionalInfoSection";
 import { FormActions } from "./form/FormActions";
 import { ErrorDisplay } from "./form/ErrorDisplay";
 import { prepareEmployeeUpdateData } from "./form/EmployeeFormUtils";
+import { useEmployees } from "@/hooks/useEmployees";
 
 interface EmployeeEditProps {
   employee: Employee;
@@ -28,6 +29,7 @@ export function EmployeeEdit({ employee, onSave, onCancel }: EmployeeEditProps) 
   });
   const { toast } = useToast();
   const { token } = useAuth();
+  const { updateEmployeeMutation } = useEmployees();
   
   // Log employee data for debugging
   useEffect(() => {
@@ -44,30 +46,6 @@ export function EmployeeEdit({ employee, onSave, onCancel }: EmployeeEditProps) 
     enabled: !!token,
   });
 
-  // Mutation pour mettre à jour un employé
-  const updateEmployeeMutation = useMutation({
-    mutationFn: (data: any) => {
-      if (!token) throw new Error("Token manquant");
-      console.log("Updating employee with data:", data);
-      return employeeService.update(token, employee.id, data);
-    },
-    onSuccess: (data) => {
-      toast({
-        title: "Employé mis à jour",
-        description: `La fiche de ${data.prenom} ${data.nom} a été mise à jour avec succès.`,
-      });
-      onSave(data);
-    },
-    onError: (error) => {
-      console.error("Error updating employee:", error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de mettre à jour l'employé. Veuillez réessayer.",
-        variant: "destructive",
-      });
-    },
-  });
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -80,7 +58,15 @@ export function EmployeeEdit({ employee, onSave, onCancel }: EmployeeEditProps) 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const updateData = prepareEmployeeUpdateData(formData);
-    updateEmployeeMutation.mutate(updateData);
+    
+    updateEmployeeMutation.mutate(
+      { id: employee.id, updateData },
+      {
+        onSuccess: (data) => {
+          onSave(data);
+        }
+      }
+    );
   };
 
   // Si employee est undefined ou null, afficher un message d'erreur

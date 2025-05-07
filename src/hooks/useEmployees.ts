@@ -49,6 +49,31 @@ export function useEmployees() {
     },
   });
 
+  // Mutation pour mettre à jour un employé
+  const updateEmployeeMutation = useMutation({
+    mutationFn: (data: { id: number, updateData: any }) => {
+      if (!token) throw new Error("Token manquant");
+      return employeeService.update(token, data.id, data.updateData);
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Employé mis à jour",
+        description: `La fiche de ${data.prenom} ${data.nom} a été mise à jour avec succès.`,
+      });
+      // Invalider la requête des employés pour rafraîchir automatiquement la liste
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
+      setSelectedEmployee(data);
+    },
+    onError: (error) => {
+      console.error("Error updating employee:", error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de mettre à jour l'employé. Veuillez réessayer.",
+        variant: "destructive",
+      });
+    },
+  });
+
   // Récupérer les détails d'un employé
   const fetchEmployeeDetails = async (employeeId: number) => {
     if (!token) return;
@@ -74,12 +99,18 @@ export function useEmployees() {
     }
   };
 
+  const refreshEmployeesList = () => {
+    queryClient.invalidateQueries({ queryKey: ["employees"] });
+  };
+
   return {
     employees,
     isLoadingEmployees,
     selectedEmployee,
     setSelectedEmployee,
     deleteEmployeeMutation,
-    fetchEmployeeDetails
+    updateEmployeeMutation,
+    fetchEmployeeDetails,
+    refreshEmployeesList
   };
 }

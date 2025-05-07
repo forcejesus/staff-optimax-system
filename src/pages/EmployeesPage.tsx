@@ -15,7 +15,8 @@ const EmployeesPage = () => {
     selectedEmployee, 
     setSelectedEmployee,
     deleteEmployeeMutation, 
-    fetchEmployeeDetails 
+    fetchEmployeeDetails,
+    refreshEmployeesList
   } = useEmployees();
   
   const handleViewEmployee = (employeeId: number) => {
@@ -44,6 +45,8 @@ const EmployeesPage = () => {
 
   const handleSaveEmployee = (updatedEmployee: Employee) => {
     setSelectedEmployee(updatedEmployee);
+    // Refresh the list after saving
+    refreshEmployeesList();
     setActiveTab("details");
   };
 
